@@ -13,32 +13,34 @@ public class Gamer {
         this.name = name;
     }
 
-    void move()
+    void move(Scanner sc)
     {
         boolean isInputInvalid = true;
-        Scanner sc = new Scanner(System.in);
-
+        System.out.println(this.name + " Enter p:paper , s:scissor , r:rock or q:quit");
         do {
-            System.out.println(this.name + "Enter p:paper , s:scissor , r:rock or q:quit");
             char input = sc.next().toLowerCase().charAt(0);
 
             switch (input)
             {
                 case 'q':
                     Arena.setIsGameOver(true);
+                    isInputInvalid = false;
+                    System.exit(0);
                     break;
                 case 'p':
                     sign = HandSign.PAPER;
+                    isInputInvalid = false;
                     break;
                 case 's':
                     sign = HandSign.SCISSOR;
+                    isInputInvalid = false;
                     break;
                 case 'r':
                     sign = HandSign.ROCK;
+                    isInputInvalid = false;
                     break;
                 default:
                     System.out.println("Invalid input ! Please enter valid value!");
-                    isInputInvalid = false;
                     break;
             }
 

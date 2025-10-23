@@ -1,21 +1,25 @@
+import java.util.Scanner;
+
 public class Arena {
     //Attributes
     private Gamer g1;
     private Gamer g2;
+    private Scanner sc;
     private static boolean isGameOver;
 
-    public void addGamers(Gamer g1 , Gamer g2)
+    public void addGamers(Gamer g1 , Gamer g2 , Scanner sc)
     {
         this.g1 = g1;
         this.g2 = g2;
+        this.sc = sc;
     }
 
     public void startGame()
     {
         while (!isGameOver)
         {
-            g1.move();
-            g2.move();
+            g1.move(sc);
+            g2.move(sc);
             StatMaker.proccesMoves(g1,g2);
             StatMaker.displayScores(g1,g2);
         }
