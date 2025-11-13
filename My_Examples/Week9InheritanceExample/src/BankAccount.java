@@ -2,13 +2,17 @@ public class BankAccount {
     protected String accNumber;
     protected String accHolder;
     protected double balance;
+    protected String accType;
 
-    BankAccount(String accNumber , String accHolder , double balance)
+    //Constructor
+    BankAccount(String accNumber , String accHolder , double balance ,String accType)
     {
         this.accHolder = accHolder;
         this.accNumber = accNumber;
         this.balance = balance;
+        this.accType = accType;
     }
+
     //Para yatirma
     public void deposit(double amount)
     {
@@ -33,10 +37,39 @@ public class BankAccount {
 
     public void displayAccountInfo()
     {
-        System.out.printf("Account Number: %s ,Account Holder: %s , Balance: %.2f%n" ,accNumber , accHolder , getBalance());
+        System.out.printf("Account Number: %s ,Account Holder: %s , Balance: %.2f , Account type: %s%n" ,
+                accNumber ,
+                accHolder ,
+                getBalance() ,
+                accType);
+    }
+
+    //Setter&Getter
+    public void setAccHolder(String accHolder) {
+        this.accHolder = accHolder;
+    }
+
+    public void setAccNumber(String accNumber) {
+        this.accNumber = accNumber;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getAccHolder() {
+        return accHolder;
+    }
+
+    public String getAccNumber() {
+        return accNumber;
     }
 
     public double getBalance() {
         return balance;
+    }
+
+    public String getAccType() {
+        return accType;
     }
 }

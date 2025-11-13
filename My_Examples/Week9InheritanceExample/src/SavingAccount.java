@@ -1,10 +1,12 @@
 public class SavingAccount extends BankAccount{
     private double interestRate = 0.05; //%5
     private int withdrawalCount = 0;
+    private final String accType = "Saving";
 
-    SavingAccount(String accNumber , String accHolder , double balance)
+    SavingAccount(String accNumber , String accHolder , double balance , double interestRate)
     {
-        super(accNumber,accHolder,balance);
+        super(accNumber,accHolder,balance,"Saving");
+        this.interestRate = interestRate;
     }
 
     public void addInterest()
@@ -24,6 +26,16 @@ public class SavingAccount extends BankAccount{
         } else {
             System.out.println("Monthly withdrawal limit exceeded!");
         }
+    }
+    @Override
+    public void displayAccountInfo() {
+        System.out.printf(
+                "Account Number: %s ,Account Holder: %s , Balance: %.2f , Type: %s, Interest Rate: %f%n" ,
+                accNumber ,
+                accHolder ,
+                getBalance() ,
+                accType ,
+                interestRate);
     }
 
     public void resetMonthlyWithdrawals()

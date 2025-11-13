@@ -1,9 +1,9 @@
 public class CheckingAccount extends BankAccount{
     private double overdraftLimit;
-
+    private final String accType = "Checking";
     CheckingAccount(String accNumber , String accHolder , double balance , double overdraftLimit)
     {
-        super(accNumber,accHolder,balance);
+        super(accNumber,accHolder,balance , "Checking");
         this.overdraftLimit = overdraftLimit;
     }
 
@@ -31,10 +31,11 @@ public class CheckingAccount extends BankAccount{
     @Override
     public void displayAccountInfo() {
         System.out.printf(
-                "Account Number: %s ,Account Holder: %s , Balance: %.2f , OverdraftLimit : %.2f , Available Balance: %.2f%n" ,
+                "Account Number: %s ,Account Holder: %s , Balance: %.2f , Type: %s, OverdraftLimit : %.2f , Available Balance: %.2f%n" ,
                                     accNumber ,
                                     accHolder ,
                                     getBalance() ,
+                                    accType ,
                                     overdraftLimit ,
                                     getAvailableBalance());
     }
