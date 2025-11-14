@@ -2,9 +2,9 @@ public class CheckingAccount extends BankAccount{
 
     private double overdraftLimit;
     private final String accType = "Checking";
-    CheckingAccount(String accNumber , String accHolder , double balance , double overdraftLimit)
+    CheckingAccount(String accNumber , String accHolder , double balance ,String password, double interestRate)
     {
-        super(accNumber,accHolder,balance , "Checking");
+        super(accNumber,accHolder,balance ,password, "Checking");
         this.overdraftLimit = overdraftLimit;
     }
 

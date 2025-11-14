@@ -3,13 +3,16 @@ public class BankAccount {
     protected String accHolder;
     protected double balance;
     protected String accType;
+    protected String password;
+    protected PasswordCheck passwordCheck;
 
     //Constructor
-    BankAccount(String accNumber , String accHolder , double balance ,String accType)
+    BankAccount(String accNumber , String accHolder , double balance , String password ,String accType)
     {
         this.accHolder = accHolder;
         this.accNumber = accNumber;
         this.balance = balance;
+        this.password = password;
         this.accType = accType;
     }
 
@@ -50,6 +53,15 @@ public class BankAccount {
         }
     }
 
+    public boolean isPasswordMatched(String password)
+    {
+        if (!passwordCheck.isValid(password))
+        {
+            return false;
+        }
+
+        return passwordCheck.isValid(password);
+    }
     public void displayAccountInfo()
     {
         System.out.printf("Account Number: %s ,Account Holder: %s , Balance: %.2f , Account type: %s%n" ,
@@ -68,7 +80,8 @@ public class BankAccount {
         this.accNumber = accNumber;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(double balance)
+    {
         this.balance = balance;
     }
 
@@ -87,4 +100,5 @@ public class BankAccount {
     public String getAccType() {
         return accType;
     }
+
 }

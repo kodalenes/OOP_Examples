@@ -6,6 +6,7 @@ public class MainClass {
     {
         Scanner input = new Scanner(System.in);
         Bank bank = new Bank();
+        PasswordCheck passwordCheck = new PasswordCheck();
 
         boolean isOver = false;
         do {
@@ -20,7 +21,7 @@ public class MainClass {
 
             switch (choice){
                 case 1:
-                    CreateAccount(bank, input);
+                    CreateAccount(bank, passwordCheck, input);
                     break;
                 case 2:
                     DeleteAccount(bank,input);
@@ -44,7 +45,7 @@ public class MainClass {
         }while(!isOver);
     }
 
-    public static void CreateAccount(Bank bank, Scanner input)
+    public static void CreateAccount(Bank bank, PasswordCheck passwordCheck, Scanner input)
     {
         while (true) {
             System.out.println("Enter what type of account do you want to create.");
@@ -58,10 +59,10 @@ public class MainClass {
             switch (choice)
             {
                 case 1:
-                    createCheckingAcc(bank, input);
+                    createCheckingAcc(bank,passwordCheck, input);
                     break;
                 case 2:
-                    createSavingAcc(bank, input);
+                    createSavingAcc(bank,passwordCheck, input);
                     break;
                 case 0:
                     return;
@@ -72,27 +73,39 @@ public class MainClass {
         }
     }
 
-    private static void createSavingAcc(Bank bank, Scanner input)
+    private static void createSavingAcc(Bank bank,PasswordCheck passwordCheck, Scanner input)
     {
-        System.out.println("Enter Acc Number");
-        String accNumber = input.nextLine();
-        System.out.println("Enter Acc Holder Name");
-        String accHolder = input.nextLine();
-        SavingAccount s1 = new SavingAccount(accNumber,accHolder,0,0.05);
+        BaseAccountInfo info = getBaseAccountinfo(passwordCheck, input);
+
+        SavingAccount s1 = new SavingAccount(info.accNumber,info.accHolder,0, info.password,0.05);
         bank.addAccount(s1);
         System.out.println("Account created.");
     }
 
-    private static void createCheckingAcc(Bank bank, Scanner input)
+    private static void createCheckingAcc(Bank bank, PasswordCheck passwordCheck, Scanner input)
     {
+        BaseAccountInfo info = getBaseAccountinfo(passwordCheck, input);
+
+        double overdraftLimit = 200;
+        CheckingAccount c1 = new CheckingAccount(info.accNumber(), info.accHolder(),0, info.password(),overdraftLimit);
+        bank.addAccount(c1);
+        System.out.println("Account created.");
+    }
+
+    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck, Scanner input) {
         System.out.println("Enter Acc Number");
         String accNumber = input.nextLine();
         System.out.println("Enter Acc Holder Name");
         String accHolder = input.nextLine();
-        double overdraftLimit = 200;
-        CheckingAccount c1 = new CheckingAccount(accNumber,accHolder,0,overdraftLimit);
-        bank.addAccount(c1);
-        System.out.println("Account created.");
+        String password;
+        do {
+            System.out.println("Enter password[6 digit-only numbers]");
+            password = input.nextLine();
+        } while (!passwordCheck.isValid(password));
+        return new BaseAccountInfo(accNumber, accHolder, password);
+    }
+
+    private record BaseAccountInfo(String accNumber, String accHolder, String password) {
     }
 
     private static void DeleteAccount(Bank bank, Scanner input)
@@ -106,32 +119,63 @@ public class MainClass {
 
     private static void makeDeposit(Bank bank ,Scanner input)
     {
+        BasePasswordCheck info = getBasePasswordCheck(bank, input);
+
+        if (info.isLogin())
+        {
+            System.out.println("Enter the amount to deposit?");
+            double amount = input.nextDouble();
+            info.account().deposit(amount);
+        }
+    }
+
+    private static BasePasswordCheck getBasePasswordCheck(Bank bank, Scanner input)
+    {
+        int trialCounter = 0;
+        String password;
+        boolean isLogin = false;
+
         input.nextLine();//Buffer temizligi
         System.out.println("Enter your account number");
         String accNumber = input.nextLine();
 
         BankAccount account = bank.getAccByNumber(accNumber);
 
-        if (account != null) {
-            System.out.println("Enter the amount to deposit?");
-            double amount = input.nextDouble();
-            account.deposit(amount);
+        while (trialCounter < 3)
+        {
+            System.out.println("Enter your 6 digit password");
+            String enteredPass = input.nextLine();
+            if (enteredPass.equals(account.password))
+            {
+                System.out.println("Login successful");
+                isLogin = true;
+                break;
+            }
+            else {
+                System.out.println("Wrong password");
+            }
+            trialCounter++;
+            if (trialCounter == 3)
+            {
+                System.out.println("Your account is suspended try again later!");
+            }
         }
+        return new BasePasswordCheck(isLogin, account);
+    }
+
+    private record BasePasswordCheck(boolean isLogin, BankAccount account)
+    {
     }
 
     private static void makeWithdraw(Bank bank, Scanner input)
     {
-        input.nextLine();//Buffer temizligi
-        System.out.println("Enter your account number");
-        String accNumber = input.nextLine();
+        BasePasswordCheck info = getBasePasswordCheck(bank, input);
 
-        BankAccount account = bank.getAccByNumber(accNumber);
-
-        if (account != null)
+        if (info.isLogin())
         {
             System.out.println("Enter the amount to withdraw?");
             double amount = input.nextDouble();
-            account.withdraw(amount);
+            info.account().withdraw(amount);
         }
     }
 
@@ -140,24 +184,21 @@ public class MainClass {
         BankAccount transferAcc = null;
         BankAccount account = null;
 
-        input.nextLine();//Buffer
-        System.out.println("Enter your account number?");
-        String accNumber = input.nextLine();
+        BasePasswordCheck info = getBasePasswordCheck(bank,input);
 
-        account = bank.getAccByNumber(accNumber);
-
-        if (account != null)
+        if (info.account != null)
         {
             System.out.println("Enter the account number that you  want to transfer?");
             String transferAccNum = input.nextLine();
             transferAcc = bank.getAccByNumber(transferAccNum);
         }
 
-        if (account != null && transferAcc != null)
+        if (info.account != null && transferAcc != null)
         {
             System.out.println("Enter the amount to transfer?");
             double amount = input.nextDouble();
-            account.transfer(transferAcc, amount);
+            info.account().transfer(transferAcc, amount);
         }
     }
+
 }
