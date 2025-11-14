@@ -44,6 +44,19 @@ public class Bank {
         return new ArrayList<>(accounts);
     }
 
+    public BankAccount getAccByNumber(String accNumber)
+    {
+        for (BankAccount b:accounts)
+        {
+            if (b.accNumber.equals(accNumber))
+            {
+                return b;
+            }
+        }
+        System.out.println("Account not found!");
+        return null;
+    }
+
     public void displayAll()
     {
         if (accounts.isEmpty())

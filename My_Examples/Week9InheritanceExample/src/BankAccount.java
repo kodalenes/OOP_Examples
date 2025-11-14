@@ -13,12 +13,14 @@ public class BankAccount {
         this.accType = accType;
     }
 
+    //Methods
+
     //Para yatirma
     public void deposit(double amount)
     {
         balance += amount;
         System.out.println("Successfully deposit " + amount);
-        System.out.printf("%s Balance is %f %n" , accHolder , getBalance());
+        System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
     }
 
     //Para cekme
@@ -32,6 +34,19 @@ public class BankAccount {
             balance -= amount;
             System.out.println("Successfully withdraw " + amount);
             System.out.printf("%s Balance is %f %n" , accHolder , getBalance());
+        }
+    }
+
+    public void transfer(BankAccount to, double amount)
+    {
+        if (balance >= amount)
+        {
+            to.balance += amount;
+            balance -= amount;
+            System.out.println("Transfer successful");
+        }
+        else {
+            System.out.println("Insufficient balance.");
         }
     }
 

@@ -1,4 +1,5 @@
 public class CheckingAccount extends BankAccount{
+
     private double overdraftLimit;
     private final String accType = "Checking";
     CheckingAccount(String accNumber , String accHolder , double balance , double overdraftLimit)
@@ -26,6 +27,11 @@ public class CheckingAccount extends BankAccount{
         {
             System.out.println("Insufficient balance and overdraft limit!");
         }
+    }
+
+    @Override
+    public void transfer(BankAccount to, double amount) {
+        super.transfer(to, amount);
     }
 
     @Override

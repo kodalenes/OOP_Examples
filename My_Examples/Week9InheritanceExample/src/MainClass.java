@@ -6,6 +6,7 @@ public class MainClass {
     {
         Scanner input = new Scanner(System.in);
         Bank bank = new Bank();
+
         boolean isOver = false;
         do {
             System.out.println("1- Create Account");
@@ -25,10 +26,13 @@ public class MainClass {
                     DeleteAccount(bank,input);
                     break;
                 case 3:
+                    makeDeposit(bank,input);
                     break;
                 case 4:
+                    makeWithdraw(bank,input);
                     break;
                 case 5:
+                    makeTransfer(bank,input);
                     break;
                 case 6:
                     bank.displayAll();
@@ -37,7 +41,6 @@ public class MainClass {
                     isOver = true;
                     break;
             }
-
         }while(!isOver);
     }
 
@@ -101,4 +104,60 @@ public class MainClass {
         bank.removeByNumber(accNum);
     }
 
+    private static void makeDeposit(Bank bank ,Scanner input)
+    {
+        input.nextLine();//Buffer temizligi
+        System.out.println("Enter your account number");
+        String accNumber = input.nextLine();
+
+        BankAccount account = bank.getAccByNumber(accNumber);
+
+        if (account != null) {
+            System.out.println("Enter the amount to deposit?");
+            double amount = input.nextDouble();
+            account.deposit(amount);
+        }
+    }
+
+    private static void makeWithdraw(Bank bank, Scanner input)
+    {
+        input.nextLine();//Buffer temizligi
+        System.out.println("Enter your account number");
+        String accNumber = input.nextLine();
+
+        BankAccount account = bank.getAccByNumber(accNumber);
+
+        if (account != null)
+        {
+            System.out.println("Enter the amount to withdraw?");
+            double amount = input.nextDouble();
+            account.withdraw(amount);
+        }
+    }
+
+    private static void makeTransfer(Bank bank, Scanner input)
+    {
+        BankAccount transferAcc = null;
+        BankAccount account = null;
+
+        input.nextLine();//Buffer
+        System.out.println("Enter your account number?");
+        String accNumber = input.nextLine();
+
+        account = bank.getAccByNumber(accNumber);
+
+        if (account != null)
+        {
+            System.out.println("Enter the account number that you  want to transfer?");
+            String transferAccNum = input.nextLine();
+            transferAcc = bank.getAccByNumber(transferAccNum);
+        }
+
+        if (account != null && transferAcc != null)
+        {
+            System.out.println("Enter the amount to transfer?");
+            double amount = input.nextDouble();
+            account.transfer(transferAcc, amount);
+        }
+    }
 }
