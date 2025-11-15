@@ -1,3 +1,8 @@
+import Exceptions.DailyLimitExceededException;
+import Exceptions.InsufficientBalanceException;
+import Exceptions.InvalidAmountException;
+import Exceptions.SameAccountTransferException;
+
 import java.time.LocalDate;
 
 public class BankAccount {
@@ -47,9 +52,9 @@ public class BankAccount {
             amountWithdrawnToday = 0;
         }
 
-        if (!(amount > 0))
+        if (amount < 0)
         {
-            throw new IllegalArgumentException("Withdraw amount must be above 0");
+            throw new InvalidAmountException("Withdraw amount must be above 0");
         }
         else if (amountWithdrawnToday + amount > DAILY_WITHDRAWAL_LIMIT)
         {
@@ -71,23 +76,32 @@ public class BankAccount {
         }
     }
 
+    public void decreaseBalanceForTransfer(double amount)
+    {
+        balance -= amount;
+    }
+
     public void transfer(BankAccount to, double amount)
     {
-        if (amount > 0)
+        if (this == to)
         {
-            if (balance >= amount)
-            {
-                to.balance += amount;
-                balance -= amount;
-                System.out.println("Transfer successful");
-            }
-            else {
-                System.out.println("Insufficient balance.");
-            }
-        }else
-        {
-            throw new IllegalArgumentException("Transfer amount must be above 0");
+            throw new SameAccountTransferException("You must enter different account to transfer!");
         }
+
+        if (amount <= 0)
+        {
+            throw new InvalidAmountException("Transfer amount must be above 0");
+        }
+
+        if (amount > this.getBalance())
+        {
+            throw new InsufficientBalanceException("Transfer failed! Insufficient funds");
+        }
+
+        //All the rules succeed
+        this.decreaseBalanceForTransfer(amount);
+        to.deposit(amount);
+        System.out.println("Transfer successful");
     }
 
     public void displayAccountInfo()

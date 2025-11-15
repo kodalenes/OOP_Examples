@@ -206,13 +206,15 @@ public class MainClass {
             transferAcc = bank.getAccByNumber(transferAccNum);
         }
 
-        if (info.account != null && transferAcc != null)
+        if (info.account != null && transferAcc != null )
         {
             System.out.println("Enter the amount to transfer?");
             double amount = input.nextDouble();
             try {
                 info.account().transfer(transferAcc, amount);
-            } catch (IllegalArgumentException e) {
+
+            } catch (Exception e)
+            {
                 System.out.println(e.getMessage());
             }
         }

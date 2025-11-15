@@ -29,7 +29,7 @@ public class SavingAccount extends BankAccount{
     }
 
     @Override
-    public void transfer(BankAccount to, double amount) {
+    public void transfer( BankAccount to, double amount) {
         super.transfer(to, amount);
     }
 

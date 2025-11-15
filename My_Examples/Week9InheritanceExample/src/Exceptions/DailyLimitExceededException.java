@@ -1,3 +1,5 @@
+package Exceptions;
+
 public class DailyLimitExceededException extends RuntimeException {
 
     public DailyLimitExceededException(String message) {
