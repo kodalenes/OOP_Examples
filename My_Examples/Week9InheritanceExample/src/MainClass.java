@@ -79,7 +79,7 @@ public class MainClass {
     {
         BaseAccountInfo info = getBaseAccountinfo(passwordCheck, input);
 
-        SavingAccount s1 = new SavingAccount(info.accNumber,info.accHolder,0, info.password,0.05);
+        SavingAccount s1 = new SavingAccount(info.accHolder,0, info.password,0.05);
         bank.addAccount(s1);
         System.out.println("Account created.");
     }
@@ -89,32 +89,16 @@ public class MainClass {
         BaseAccountInfo info = getBaseAccountinfo(passwordCheck, input);
 
         double overdraftLimit = 200;
-        CheckingAccount c1 = new CheckingAccount(info.accNumber(), info.accHolder(),0,overdraftLimit ,info.password(),overdraftLimit);
+        CheckingAccount c1 = new CheckingAccount(info.accHolder(),0,overdraftLimit ,info.password(),overdraftLimit);
         bank.addAccount(c1);
         System.out.println("Account created.");
-    }
-
-    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck, Scanner input) {
-        System.out.println("Enter Acc Number");
-        String accNumber = input.nextLine();
-        System.out.println("Enter Acc Holder Name");
-        String accHolder = input.nextLine();
-        String password;
-        do {
-            System.out.println("Enter password[6 digit-only numbers]");
-            password = input.nextLine();
-        } while (!passwordCheck.isValid(password));
-        return new BaseAccountInfo(accNumber, accHolder, password);
-    }
-
-    private record BaseAccountInfo(String accNumber, String accHolder, String password) {
     }
 
     private static void DeleteAccount(Bank bank, Scanner input)
     {
         input.nextLine();//Buffer temizligi
         System.out.println("Enter the account number that you want to delete");
-        String accNum = input.nextLine();
+        int accNum = input.nextInt();
 
         bank.removeByNumber(accNum);
     }
@@ -133,45 +117,6 @@ public class MainClass {
                 System.out.println(e.getMessage());
             }
         }
-    }
-
-    private static BasePasswordCheck getBasePasswordCheck(Bank bank, Scanner input)
-    {
-        int trialCounter = 0;
-        boolean isLogin = false;
-
-        input.nextLine();//Buffer temizligi
-        System.out.println("Enter your account number");
-        String accNumber = input.nextLine();
-
-        BankAccount account = bank.getAccByNumber(accNumber);
-
-        if (account != null) {
-            while (trialCounter < 3)
-            {
-                System.out.println("Enter your 6 digit password");
-                String enteredPass = input.nextLine();
-                if (enteredPass.equals(account.password))
-                {
-                    System.out.println("Login successful");
-                    isLogin = true;
-                    break;
-                }
-                else {
-                    System.out.println("Wrong password");
-                }
-                trialCounter++;
-                if (trialCounter == 3)
-                {
-                    System.out.println("Your account is suspended try again later!");
-                }
-            }
-        }
-        return new BasePasswordCheck(isLogin, account);
-    }
-
-    private record BasePasswordCheck(boolean isLogin, BankAccount account)
-    {
     }
 
     private static void makeWithdraw(Bank bank, Scanner input)
@@ -202,7 +147,7 @@ public class MainClass {
         if (info.account != null)
         {
             System.out.println("Enter the account number that you  want to transfer?");
-            String transferAccNum = input.nextLine();
+            int transferAccNum = input.nextInt();
             transferAcc = bank.getAccByNumber(transferAccNum);
         }
 
@@ -218,6 +163,62 @@ public class MainClass {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck, Scanner input)
+    {
+        System.out.println("Enter Acc Holder Name");
+        String accHolder = input.nextLine();
+        String password;
+        do {
+            System.out.println("Enter password[6 digit-only numbers]");
+            password = input.nextLine();
+        } while (!passwordCheck.isValid(password));
+        return new BaseAccountInfo(accHolder, password);
+    }
+
+    private record BaseAccountInfo(String accHolder, String password)
+    {
+    }
+
+    private static BasePasswordCheck getBasePasswordCheck(Bank bank, Scanner input)
+    {
+        int trialCounter = 0;
+        boolean isLogin = false;
+
+        input.nextLine();//Buffer temizligi
+        System.out.println("Enter your account number");
+        int accNumber = input.nextInt();
+
+        BankAccount account = bank.getAccByNumber(accNumber);
+
+        if (account != null) {
+            while (trialCounter < 3)
+            {
+                input.nextLine();
+                System.out.println("Enter your 6 digit password");
+                String enteredPass = input.nextLine();
+                if (enteredPass.equals(account.password))
+                {
+                    System.out.println("Login successful");
+                    isLogin = true;
+                    break;
+                }
+                else {
+                    System.out.println("Wrong password");
+                }
+                trialCounter++;
+                if (trialCounter == 3)
+                {
+                    System.out.println("Your account is suspended try again later!");
+                }
+            }
+        }
+        return new BasePasswordCheck(isLogin, account);
+    }
+
+    private record BasePasswordCheck(boolean isLogin, BankAccount account)
+    {
     }
 
 }

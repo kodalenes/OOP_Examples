@@ -16,13 +16,26 @@ public class Bank {
         accounts.add(account);
     }
 
-    public void removeByNumber(String accNumber)
+    public BankAccount getAccByNumber(int accNumber)
+    {
+        for (BankAccount b:accounts)
+        {
+            if (b.accNumber == accNumber)
+            {
+                return b;
+            }
+        }
+        System.out.println("Account not found!");
+        return null;
+    }
+
+    public void removeByNumber(int accNumber)
     {
         Iterator<BankAccount> it = accounts.iterator();
 
         while (it.hasNext())
         {
-            if (it.next().getAccNumber().equals(accNumber))
+            if (it.next().getAccNumber() == accNumber)
             {
                 it.remove();
                 System.out.println("Account deleted:" + accNumber);
@@ -32,18 +45,6 @@ public class Bank {
         System.out.println("Account not found!");
     }
 
-    public BankAccount findByNumber(String accNumber)
-    {
-        for (BankAccount a : accounts)
-        {
-            if (a.accNumber.equals(accNumber))
-            {
-                return a;
-            }
-        }
-        System.out.println("Account not found");
-        return null;
-    }
 
     public void displayAll()
     {
@@ -98,6 +99,10 @@ public class Bank {
             if (loadedAccounts != null)
             {
                 accounts.clear();
+                for (BankAccount acc : loadedAccounts)
+                {
+                    if (acc.getHistory() == null){ acc.getHistory().clear();}
+                }
                 accounts.addAll(loadedAccounts);
                 System.out.println("Accounts loaded from JSON!");
             }else {
@@ -114,17 +119,6 @@ public class Bank {
         return new ArrayList<>(accounts);
     }
 
-    public BankAccount getAccByNumber(String accNumber)
-    {
-        for (BankAccount b:accounts)
-        {
-            if (b.accNumber.equals(accNumber))
-            {
-                return b;
-            }
-        }
-        System.out.println("Account not found!");
-        return null;
-    }
+
 }
 

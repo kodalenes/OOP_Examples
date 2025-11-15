@@ -4,10 +4,12 @@ import Exceptions.InvalidAmountException;
 import Exceptions.SameAccountTransferException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BankAccount {
     //Account Info
-    protected String accNumber;
+    protected int accNumber;
     protected String accHolder;
     protected double balance;
     protected String accType;
@@ -15,18 +17,23 @@ public class BankAccount {
     protected PasswordCheck passwordCheck;
     protected double DAILY_WITHDRAWAL_LIMIT = 5000;
     protected double amountWithdrawnToday;
+    private static int accNumberMaker = 1000;
     //Date
     protected LocalDate today;
     protected LocalDate lastWithdrawalDate;
 
+    private List<Transaction> history = new ArrayList<>();
+
     //Constructor
-    BankAccount(String accNumber , String accHolder , double balance , String password ,String accType)
+    BankAccount(String accHolder , double balance , String password ,String accType)
     {
         this.accHolder = accHolder;
-        this.accNumber = accNumber;
+        this.accNumber = accNumberMaker;
         this.balance = balance;
         this.password = password;
         this.accType = accType;
+        accNumberMaker++;
+        this.history = new ArrayList<>();
     }
 
     //Methods
@@ -40,8 +47,7 @@ public class BankAccount {
         balance += amount;
         System.out.println("Successfully deposit " + amount);
         System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
-
-
+        history.add(new Transaction(TransactionType.DEPOSIT,amount,getBalance(),null));
     }
 
     public void withdraw(double amount)
@@ -73,6 +79,7 @@ public class BankAccount {
             System.out.println("Successfully withdraw " + amount);
             System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
             System.out.printf("%s remaining daily withdraw limit is: %.2f%n" , accHolder ,currentRemainingLimit);
+            history.add(new Transaction(TransactionType.WITHDRAW,amount,getBalance(),null));
         }
     }
 
@@ -102,6 +109,8 @@ public class BankAccount {
         this.decreaseBalanceForTransfer(amount);
         to.deposit(amount);
         System.out.println("Transfer successful");
+        this.history.add(new Transaction(TransactionType.TRANSFER_OUT,amount,getBalance(),"Gonderilen hesap:" + to.accNumber));
+        to.history.add(new Transaction(TransactionType.TRANSFER_IN,amount,getBalance(),"Gelen hesap:" + this.accNumber));
     }
 
     public void displayAccountInfo()
@@ -118,7 +127,7 @@ public class BankAccount {
         this.accHolder = accHolder;
     }
 
-    public void setAccNumber(String accNumber) {
+    public void setAccNumber(int accNumber) {
         this.accNumber = accNumber;
     }
 
@@ -131,7 +140,7 @@ public class BankAccount {
         return accHolder;
     }
 
-    public String getAccNumber() {
+    public int getAccNumber() {
         return accNumber;
     }
 
@@ -149,5 +158,13 @@ public class BankAccount {
 
     public double getDAILY_WITHDRAWAL_LIMIT() {
         return DAILY_WITHDRAWAL_LIMIT;
+    }
+
+    public List<Transaction> getHistory() {
+        if (history == null)
+        {
+            history = new ArrayList<>();
+        }
+        return history;
     }
 }
