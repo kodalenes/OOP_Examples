@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainClass {
@@ -88,7 +89,7 @@ public class MainClass {
         BaseAccountInfo info = getBaseAccountinfo(passwordCheck, input);
 
         double overdraftLimit = 200;
-        CheckingAccount c1 = new CheckingAccount(info.accNumber(), info.accHolder(),0, info.password(),overdraftLimit);
+        CheckingAccount c1 = new CheckingAccount(info.accNumber(), info.accHolder(),0,overdraftLimit ,info.password(),overdraftLimit);
         bank.addAccount(c1);
         System.out.println("Account created.");
     }
@@ -126,14 +127,17 @@ public class MainClass {
         {
             System.out.println("Enter the amount to deposit?");
             double amount = input.nextDouble();
-            info.account().deposit(amount);
+            try {
+                info.account().deposit(amount);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
     private static BasePasswordCheck getBasePasswordCheck(Bank bank, Scanner input)
     {
         int trialCounter = 0;
-        String password;
         boolean isLogin = false;
 
         input.nextLine();//Buffer temizligi
@@ -142,23 +146,25 @@ public class MainClass {
 
         BankAccount account = bank.getAccByNumber(accNumber);
 
-        while (trialCounter < 3)
-        {
-            System.out.println("Enter your 6 digit password");
-            String enteredPass = input.nextLine();
-            if (enteredPass.equals(account.password))
+        if (account != null) {
+            while (trialCounter < 3)
             {
-                System.out.println("Login successful");
-                isLogin = true;
-                break;
-            }
-            else {
-                System.out.println("Wrong password");
-            }
-            trialCounter++;
-            if (trialCounter == 3)
-            {
-                System.out.println("Your account is suspended try again later!");
+                System.out.println("Enter your 6 digit password");
+                String enteredPass = input.nextLine();
+                if (enteredPass.equals(account.password))
+                {
+                    System.out.println("Login successful");
+                    isLogin = true;
+                    break;
+                }
+                else {
+                    System.out.println("Wrong password");
+                }
+                trialCounter++;
+                if (trialCounter == 3)
+                {
+                    System.out.println("Your account is suspended try again later!");
+                }
             }
         }
         return new BasePasswordCheck(isLogin, account);
@@ -174,16 +180,22 @@ public class MainClass {
 
         if (info.isLogin())
         {
-            System.out.println("Enter the amount to withdraw?");
-            double amount = input.nextDouble();
-            info.account().withdraw(amount);
+            try {
+                System.out.println("Enter the amount to withdraw?");
+                double amount = input.nextDouble();
+                info.account().withdraw(amount);
+            } catch (InputMismatchException e) {
+                System.out.println("Enter valid number");
+                input.nextLine();
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
     private static void makeTransfer(Bank bank, Scanner input)
     {
         BankAccount transferAcc = null;
-        BankAccount account = null;
 
         BasePasswordCheck info = getBasePasswordCheck(bank,input);
 
@@ -198,7 +210,11 @@ public class MainClass {
         {
             System.out.println("Enter the amount to transfer?");
             double amount = input.nextDouble();
-            info.account().transfer(transferAcc, amount);
+            try {
+                info.account().transfer(transferAcc, amount);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

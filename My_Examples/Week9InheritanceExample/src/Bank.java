@@ -1,5 +1,6 @@
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import com.google.gson.Gson;
@@ -57,7 +58,11 @@ public class Bank {
     public void saveToJson()
     {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().
+                    setPrettyPrinting()
+                    .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
+                    .create();
+
             FileWriter writer = new FileWriter("bank.json");
 
             gson.toJson(accounts,writer);
@@ -79,7 +84,10 @@ public class Bank {
                 return;
             }
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
+                    .create();
+
             Reader reader = new FileReader(file);
 
             Type listType = new TypeToken<ArrayList<BankAccount>>(){}.getType();
