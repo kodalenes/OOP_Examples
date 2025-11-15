@@ -7,7 +7,7 @@ public class MainClass {
         Scanner input = new Scanner(System.in);
         Bank bank = new Bank();
         PasswordCheck passwordCheck = new PasswordCheck();
-
+        bank.loadFromJson();
         boolean isOver = false;
         do {
             System.out.println("1- Create Account");
@@ -40,6 +40,7 @@ public class MainClass {
                     break;
                 case 0:
                     isOver = true;
+                    bank.saveToJson();
                     break;
             }
         }while(!isOver);

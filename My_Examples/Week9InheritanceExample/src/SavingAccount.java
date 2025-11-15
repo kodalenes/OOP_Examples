@@ -2,7 +2,6 @@ public class SavingAccount extends BankAccount{
 
     private double interestRate = 0.05; //%5
     private int withdrawalCount = 0;
-    private final String accType = "Saving";
 
     SavingAccount(String accNumber , String accHolder , double balance ,String password, double interestRate)
     {
