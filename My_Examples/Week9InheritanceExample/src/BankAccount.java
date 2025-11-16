@@ -123,6 +123,12 @@ public class BankAccount {
     }
 
     //Setter&Getter
+
+
+    public static void setAccNumberMaker(int accNumberMaker) {
+        BankAccount.accNumberMaker = accNumberMaker;
+    }
+
     public void setAccHolder(String accHolder) {
         this.accHolder = accHolder;
     }
@@ -134,6 +140,10 @@ public class BankAccount {
     public void setBalance(double balance)
     {
         this.balance = balance;
+    }
+
+    public static int getAccNumberMaker() {
+        return accNumberMaker;
     }
 
     public String getAccHolder() {

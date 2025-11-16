@@ -8,6 +8,7 @@ public class MainClass {
         Scanner input = new Scanner(System.in);
         Bank bank = new Bank();
         PasswordCheck passwordCheck = new PasswordCheck();
+        bank.loadAccNumber();
         bank.loadFromJson();
         boolean isOver = false;
         do {
@@ -42,6 +43,7 @@ public class MainClass {
                 case 0:
                     isOver = true;
                     bank.saveToJson();
+                    bank.saveAccNumber();
                     break;
             }
         }while(!isOver);
