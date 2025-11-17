@@ -2,7 +2,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -94,7 +93,7 @@ public class Bank {
             System.out.println("Accounts saved to JSON!");
 
         } catch (Exception e) {
-            System.out.println("Error saving JSON: " + e.getMessage());;
+            System.out.println("Error saving JSON: " + e.getMessage());
         }
     }
 
