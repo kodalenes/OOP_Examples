@@ -20,6 +20,12 @@ public class Transaction {
         this.transactionDate = now.format(formatter);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Type:%s ,Date:%s ,Transaction Amount: %.2f ,Balance After:%.2f ,Note:%s",
+                transactionType , transactionDate,amount,balanceAfterTransaction ,note);
+    }
+
     public TransactionType getTransactionType() {
         return transactionType;
     }

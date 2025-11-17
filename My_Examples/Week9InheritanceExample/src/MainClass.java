@@ -19,13 +19,13 @@ public class MainClass {
             System.out.println("4- Withdraw");
             System.out.println("5- Transfer");
             System.out.println("6- List Accounts");
-            System.out.println("7- Update Account Info");
+            System.out.println("7- Display Transaction History By Number");
+            System.out.println("8- Update Account Info");
             System.out.println("0- Quit");
             int choice = -1;
             if (input.hasNextInt())
             {
                 choice = input.nextInt();
-                input.nextLine(); // Buffer temizliği
             }
             else
             {
@@ -54,6 +54,9 @@ public class MainClass {
                     bank.displayAll();
                     break;
                 case 7:
+                    displayTransactionHistoryByNumber(bank , input);
+                    break;
+                case 8:
                     updateAccount(bank, input);
                     break;
                 case 0:
@@ -201,6 +204,7 @@ public class MainClass {
         input.nextLine();
         BankAccount account = bank.getAccByNumber(accNumber);
         if (account != null) {
+            account.displayTransactionHistory();
             String newAccHolder;
             do {
                 System.out.println("Enter new account holder?");
@@ -211,6 +215,19 @@ public class MainClass {
                     System.out.println(e.getMessage());
                 }
             } while (!Validator.isValidAccountHolder(newAccHolder));
+        }
+
+    }
+
+    private static void displayTransactionHistoryByNumber(Bank bank, Scanner input)
+    {
+        System.out.println("Enter account number that you want to display transaction history.");
+        int accNUmber = input.nextInt();
+        BankAccount account = bank.getAccByNumber(accNUmber);
+
+        if (account != null)
+        {
+            account.displayTransactionHistory();
         }
     }
 

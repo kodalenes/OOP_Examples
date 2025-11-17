@@ -123,6 +123,20 @@ public class BankAccount {
                 accType);
     }
 
+    public void displayTransactionHistory()
+    {
+        if (history.isEmpty())
+        {
+            System.out.println("No transaction found!");
+            return;
+        }
+        for (Transaction t : history)
+        {
+
+            System.out.println(t);
+        }
+    }
+
     //Setter&Getter
 
 
