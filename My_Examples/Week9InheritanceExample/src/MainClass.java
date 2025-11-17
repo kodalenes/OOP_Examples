@@ -18,6 +18,7 @@ public class MainClass {
             System.out.println("4- Withdraw");
             System.out.println("5- Transfer");
             System.out.println("6- List Accounts");
+            System.out.println("7- Update Account Info");
             System.out.println("0- Quit");
             int choice = input.nextInt();
 
@@ -39,6 +40,9 @@ public class MainClass {
                     break;
                 case 6:
                     bank.displayAll();
+                    break;
+                case 7:
+                    updateAccount(bank, input);
                     break;
                 case 0:
                     isOver = true;
@@ -164,6 +168,21 @@ public class MainClass {
             {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private static void updateAccount(Bank bank, Scanner input)
+    {
+        System.out.println("Enter account number that you want to update?");
+        int accNumber = input.nextInt();
+        input.nextLine();
+        BankAccount account = bank.getAccByNumber(accNumber);
+        if (account != null)
+        {
+            System.out.println("Enter new account holder?");
+            String newAccHolder = input.nextLine();
+
+            account.setAccHolder(newAccHolder);
         }
     }
 

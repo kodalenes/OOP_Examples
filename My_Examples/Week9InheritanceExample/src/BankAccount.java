@@ -14,7 +14,7 @@ public class BankAccount {
     protected double balance;
     protected String accType;
     protected String password;
-    protected PasswordCheck passwordCheck;
+
     protected double DAILY_WITHDRAWAL_LIMIT = 5000;
     protected double amountWithdrawnToday;
     private static int accNumberMaker = 1000;
