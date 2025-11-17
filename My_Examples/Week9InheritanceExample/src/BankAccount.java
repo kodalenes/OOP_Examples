@@ -3,6 +3,7 @@ import Exceptions.InsufficientBalanceException;
 import Exceptions.InvalidAmountException;
 import Exceptions.SameAccountTransferException;
 
+import javax.naming.InvalidNameException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,8 +130,15 @@ public class BankAccount {
         BankAccount.accNumberMaker = accNumberMaker;
     }
 
-    public void setAccHolder(String accHolder) {
-        this.accHolder = accHolder;
+    public void setAccHolder(String accHolder) throws InvalidNameException {
+
+        if (Validator.isValidAccountHolder(accHolder))
+        {
+            this.accHolder = accHolder;
+        }else
+        {
+            throw new InvalidNameException("Name must be include just letters! Try again!");
+        }
     }
 
     public void setAccNumber(int accNumber) {

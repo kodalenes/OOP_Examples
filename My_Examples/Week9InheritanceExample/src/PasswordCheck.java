@@ -3,26 +3,26 @@ public class PasswordCheck {
     String password;
     private final int PASSWORD_LENGTH = 6;
 
-    public boolean isValid(String password)
+    public boolean isInvalidPassword(String password)
     {
         if (password == null || password.isEmpty()) {
             System.out.println("Password cannot be empty");
-            return false;
+            return true;
         }
 
         if (!password.matches("[0-9]+"))
         {
             System.out.println("Password must be contains only integer numbers");
-            return false;
+            return true;
         }
 
-        if (password.length() < PASSWORD_LENGTH)
+        if (password.length() !=  PASSWORD_LENGTH)
         {
             System.out.println("Password must be 6 digit");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public void setPassword(String password) {

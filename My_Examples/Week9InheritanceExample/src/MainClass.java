@@ -1,3 +1,4 @@
+import javax.naming.InvalidNameException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,7 +21,18 @@ public class MainClass {
             System.out.println("6- List Accounts");
             System.out.println("7- Update Account Info");
             System.out.println("0- Quit");
-            int choice = input.nextInt();
+            int choice = -1;
+            if (input.hasNextInt())
+            {
+                choice = input.nextInt();
+                input.nextLine(); // Buffer temizliği
+            }
+            else
+            {
+                System.out.println("Invalid input! Please enter a number.");
+                input.nextLine(); // Geçersiz girdiyi temizle
+                continue;
+            }
 
             switch (choice){
                 case 1:
@@ -55,30 +67,41 @@ public class MainClass {
 
     public static void CreateAccount(Bank bank, PasswordCheck passwordCheck, Scanner input)
     {
-        while (true) {
+        boolean isOver = false;
+        do {
             System.out.println("Enter what type of account do you want to create.");
             System.out.println("1- Checking Account");
             System.out.println("2- Saving Account");
             System.out.println("0- Back");
-            System.out.print("Your choice: ");
-            int choice = input.nextInt();
-            input.nextLine();//Buffer temizligi
-
-            switch (choice)
+            System.out.println("Your choice: ");
+            int choice = -1;
+            if (input.hasNextInt())
             {
+                choice = input.nextInt();
+                input.nextLine(); // Buffer temizliği
+            }
+            else
+            {
+                System.out.println("Invalid input! Please enter a number.");
+                input.nextLine(); // Geçersiz girdiyi temizle
+                continue;
+            }
+            switch (choice) {
                 case 1:
-                    createCheckingAcc(bank,passwordCheck, input);
+                    createCheckingAcc(bank, passwordCheck, input);
                     break;
                 case 2:
-                    createSavingAcc(bank,passwordCheck, input);
+                    createSavingAcc(bank, passwordCheck, input);
                     break;
                 case 0:
-                    return;
+                    isOver = true;
+                    break;
                 default:
                     System.out.println("Geçersiz seçim, lütfen tekrar deneyin.");
                     break;
-            }
-        }
+                }
+            } while (!isOver);
+
     }
 
     private static void createSavingAcc(Bank bank,PasswordCheck passwordCheck, Scanner input)
@@ -177,24 +200,33 @@ public class MainClass {
         int accNumber = input.nextInt();
         input.nextLine();
         BankAccount account = bank.getAccByNumber(accNumber);
-        if (account != null)
-        {
-            System.out.println("Enter new account holder?");
-            String newAccHolder = input.nextLine();
-
-            account.setAccHolder(newAccHolder);
+        if (account != null) {
+            String newAccHolder;
+            do {
+                System.out.println("Enter new account holder?");
+                newAccHolder = input.nextLine();
+                try {
+                    account.setAccHolder(newAccHolder);
+                } catch (InvalidNameException e) {
+                    System.out.println(e.getMessage());
+                }
+            } while (!Validator.isValidAccountHolder(newAccHolder));
         }
     }
 
-    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck, Scanner input)
-    {
-        System.out.println("Enter Acc Holder Name");
-        String accHolder = input.nextLine();
+    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck, Scanner input) {
+        String accHolder;
+        do {
+            System.out.println("Enter Acc Holder Name");
+            accHolder = input.nextLine();
+            if (!Validator.isValidAccountHolder(accHolder))
+                System.out.println("Name must be include just letters! Try again!");
+        }while(!Validator.isValidAccountHolder(accHolder));
         String password;
         do {
             System.out.println("Enter password[6 digit-only numbers]");
             password = input.nextLine();
-        } while (!passwordCheck.isValid(password));
+        } while (passwordCheck.isInvalidPassword(password));
         return new BaseAccountInfo(accHolder, password);
     }
 
