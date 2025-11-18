@@ -1,9 +1,9 @@
 public class PasswordCheck {
 
     String password;
-    private final int PASSWORD_LENGTH = 6;
+    private static final int PASSWORD_LENGTH = 6;
 
-    public boolean isInvalidPassword(String password)
+    public static boolean isInvalidPassword(String password)
     {
         if (password == null || password.isEmpty()) {
             System.out.println("Password cannot be empty");

@@ -14,7 +14,13 @@ public class BankAccount {
     protected String accHolder;
     protected double balance;
     protected String accType;
+    //Password
     protected String password;
+    protected int passTrialCounter;
+    protected boolean isSuspended;
+
+    // new field to store suspension expiry in millis
+    protected long suspendedUntilMillis;
 
     protected double DAILY_WITHDRAWAL_LIMIT = 5000;
     protected double amountWithdrawnToday;
@@ -23,7 +29,7 @@ public class BankAccount {
     protected LocalDate today;
     protected LocalDate lastWithdrawalDate;
 
-    private List<Transaction> history = new ArrayList<>();
+    private List<Transaction> history; // initialize in constructor
 
     //Constructor
     BankAccount(String accHolder , double balance , String password ,String accType)
@@ -35,6 +41,7 @@ public class BankAccount {
         this.accType = accType;
         accNumberMaker++;
         this.history = new ArrayList<>();
+        this.suspendedUntilMillis = 0;
     }
 
     //Methods
@@ -125,7 +132,7 @@ public class BankAccount {
 
     public void displayTransactionHistory()
     {
-        if (history.isEmpty())
+        if (history == null || history.isEmpty())
         {
             System.out.println("No transaction found!");
             return;
@@ -182,6 +189,13 @@ public class BankAccount {
 
     public String getAccType() {
         return accType;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public int getPassTrialCounter() {
+        return passTrialCounter;
     }
 
     public void setDAILY_WITHDRAWAL_LIMIT(double DAILY_WITHDRAWAL_LIMIT) {

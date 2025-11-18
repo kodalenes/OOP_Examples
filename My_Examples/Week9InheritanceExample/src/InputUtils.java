@@ -1,4 +1,5 @@
 public class InputUtils {
+
     public static int readInt(String message)
     {
         while (true)

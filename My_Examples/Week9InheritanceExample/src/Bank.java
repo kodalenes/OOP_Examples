@@ -8,16 +8,19 @@ import com.google.gson.reflect.TypeToken;
 
 public class Bank {
 
+    private static final Bank instance = new Bank();
+
     private static final String ACCOUNT_COUNTER_FILE = "account_counter.json";
     private static final String BANK_ACCOUNT_FILE = "bank.json";
-    private final ArrayList<BankAccount> accounts = new ArrayList<>();
+    private static final ArrayList<BankAccount> accounts = new ArrayList<>();
 
-    public void addAccount(BankAccount account)
+    private Bank(){}
+    public static void addAccount(BankAccount account)
     {
         accounts.add(account);
     }
 
-    public BankAccount getAccByNumber(int accNumber)
+    public static BankAccount getAccByNumber(int accNumber)
     {
         for (BankAccount b:accounts)
         {
@@ -30,7 +33,7 @@ public class Bank {
         return null;
     }
 
-    public void removeByNumber(int accNumber)
+    public static void removeByNumber(int accNumber)
     {
         BankAccount toRemove = null;
 
@@ -68,7 +71,7 @@ public class Bank {
     }
 
 
-    public void displayAll()
+    public static void displayAll()
     {
         if (accounts.isEmpty())
         {
@@ -78,56 +81,50 @@ public class Bank {
         for (BankAccount a: accounts) a.displayAccountInfo();
     }
 
-    public void saveToJson()
+    public static void saveToJson()
     {
-        try {
-            Gson gson = new GsonBuilder().
-                    setPrettyPrinting()
-                    .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
-                    .create();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
+                .create();
 
-            FileWriter writer = new FileWriter(BANK_ACCOUNT_FILE);
-
-            gson.toJson(accounts,writer);
-            writer.close();
+        try (FileWriter writer = new FileWriter(BANK_ACCOUNT_FILE)) {
+            gson.toJson(accounts, writer);
             System.out.println("Accounts saved to JSON!");
-
         } catch (Exception e) {
             System.out.println("Error saving JSON: " + e.getMessage());
         }
     }
 
-    public void loadFromJson()
+    public static void loadFromJson()
     {
-        try{
-            File file = new File(BANK_ACCOUNT_FILE);
-            if (!file.exists())
-            {
-                System.out.println("No JSON file found - starting with empty bank.");
-                return;
-            }
+        File file = new File(BANK_ACCOUNT_FILE);
+        if (!file.exists())
+        {
+            System.out.println("No JSON file found - starting with empty bank.");
+            return;
+        }
 
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
-                    .create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
+                .create();
 
-            Reader reader = new FileReader(file);
+        Type listType = new TypeToken<ArrayList<BankAccount>>(){}.getType();
 
-            Type listType = new TypeToken<ArrayList<BankAccount>>(){}.getType();
-
+        try (Reader reader = new FileReader(file)) {
             ArrayList<BankAccount> loadedAccounts = gson.fromJson(reader , listType);
-            reader.close();
 
             if (loadedAccounts != null)
             {
                 accounts.clear();
+                // ensure each account has a non-null history
                 for (BankAccount acc : loadedAccounts)
                 {
-                    if (acc.getHistory() == null){ acc.getHistory().clear();}
+                    acc.getHistory();
                 }
                 accounts.addAll(loadedAccounts);
                 System.out.println("Accounts loaded from JSON!");
-            }else {
+            } else {
                 System.out.println("JSON file empty , starting fresh.");
             }
         } catch (Exception e) {
@@ -135,33 +132,33 @@ public class Bank {
         }
     }
 
-    public void saveAccNumber()
+    public static void saveAccNumber()
     {
-        try
-        {
-            FileWriter writer = new FileWriter(ACCOUNT_COUNTER_FILE);
-            Gson gson = new Gson();
+        Gson gson = new Gson();
+        try (FileWriter writer = new FileWriter(ACCOUNT_COUNTER_FILE)) {
             gson.toJson(BankAccount.getAccNumberMaker() ,writer);
-            writer.flush();
-        }catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Error saving account number: " + e.getMessage());
         }
     }
 
-    public void loadAccNumber()
+    public static void loadAccNumber()
     {
-        try{
-            FileReader fileReader = new FileReader(ACCOUNT_COUNTER_FILE);
-            Gson gson = new Gson();
+        File file = new File(ACCOUNT_COUNTER_FILE);
+        if (!file.exists()) {
+            System.out.println("No previous account counter found, starting from 1000");
+            return;
+        }
+
+        Gson gson = new Gson();
+        try (FileReader fileReader = new FileReader(file)) {
             Integer counter = gson.fromJson(fileReader , Integer.class);
             if (counter != null)
             {
                 BankAccount.setAccNumberMaker(counter);
             }
-        }catch (IOException e)
-        {
-            System.out.println("No previous account counter found, starting from 1000");
+        } catch (IOException e) {
+            System.out.println("Error loading account counter: " + e.getMessage());
         }
     }
 
@@ -170,6 +167,7 @@ public class Bank {
         return new ArrayList<>(accounts);
     }
 
-
+    public static Bank getInstance() {
+        return instance;
+    }
 }
-
