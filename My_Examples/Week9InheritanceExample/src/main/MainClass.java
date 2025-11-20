@@ -1,4 +1,10 @@
-import javax.naming.InvalidNameException;
+package main;
+
+import Account.AccountManager;
+import Bank.Bank;
+import Utils.InputUtils;
+import Utils.PasswordCheck;
+
 import java.util.Scanner;
 
 public class MainClass {
@@ -9,7 +15,8 @@ public class MainClass {
         MainMenu();
     }
 
-    private static void MainMenu() {
+    private static void MainMenu()
+    {
         PasswordCheck passwordCheck = new PasswordCheck();
         Bank.loadAccNumber();
         Bank.loadFromJson();
@@ -21,7 +28,7 @@ public class MainClass {
             System.out.println("4- Withdraw");
             System.out.println("5- Transfer");
             System.out.println("6- List Accounts");
-            System.out.println("7- Display Transaction History By Number");
+            System.out.println("7- Display Transaction.Transaction History By Number");
             System.out.println("8- Update Account Info");
             System.out.println("0- Quit");
             int choice = InputUtils.readInt("Your choice");
@@ -59,6 +66,4 @@ public class MainClass {
             }
         }while(!isOver);
     }
-
-
 }

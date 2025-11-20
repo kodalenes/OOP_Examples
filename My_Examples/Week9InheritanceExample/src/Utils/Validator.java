@@ -1,3 +1,5 @@
+package Utils;
+
 public class Validator {
 
     public static boolean isValidAccountHolder(String name)

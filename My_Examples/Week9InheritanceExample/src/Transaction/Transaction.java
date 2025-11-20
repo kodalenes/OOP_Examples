@@ -1,3 +1,5 @@
+package Transaction;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -8,7 +10,7 @@ public class Transaction {
     private double amount;
     private String note;
 
-    Transaction(TransactionType transactionType,double amount ,double balanceAfterTransaction,String note)
+    public Transaction(TransactionType transactionType,double amount ,double balanceAfterTransaction,String note)
     {
         this.transactionType = transactionType;
         this.amount = amount;
@@ -22,7 +24,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return String.format("Type:%s ,Date:%s ,Transaction Amount: %.2f ,Balance After:%.2f ,Note:%s",
+        return String.format("Type:%s ,Date:%s ,Transaction.Transaction Amount: %.2f ,Balance After:%.2f ,Note:%s",
                 transactionType , transactionDate,amount,balanceAfterTransaction ,note);
     }
 

@@ -1,7 +1,11 @@
+package Bank;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import Account.BankAccount;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +28,7 @@ public class Bank {
     {
         for (BankAccount b:accounts)
         {
-            if (b.accNumber == accNumber)
+            if (b.getAccNumber() == accNumber)
             {
                 return b;
             }
@@ -69,7 +73,6 @@ public class Bank {
             System.out.println("Account not found");
         }
     }
-
 
     public static void displayAll()
     {
