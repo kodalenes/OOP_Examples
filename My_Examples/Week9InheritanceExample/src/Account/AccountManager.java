@@ -17,10 +17,10 @@ public class AccountManager {
             int choice = InputUtils.readInt("Your choice");
             switch (choice) {
                 case 1:
-                    createCheckingAcc(passwordCheck);
+                    createCheckingAcc();
                     break;
                 case 2:
-                    createSavingAcc(passwordCheck);
+                    createSavingAcc();
                     break;
                 case 0:
                     isOver = true;
@@ -33,21 +33,21 @@ public class AccountManager {
 
     }
 
-    public static void createSavingAcc(PasswordCheck passwordCheck)
+    public static void createSavingAcc()
     {
-        BaseAccountInfo info = getBaseAccountinfo(passwordCheck);
+        BaseAccountInfo info = getBaseAccountinfo();
 
-        SavingAccount s1 = new SavingAccount(info.accHolder,0, info.password,0.05);
+        SavingAccount s1 = new SavingAccount(info.accHolder(),0, info.password(),0.05);
         Bank.getInstance().addAccount(s1);
         System.out.println("Account created.");
     }
 
-    public static void createCheckingAcc(PasswordCheck passwordCheck)
+    public static void createCheckingAcc()
     {
-        BaseAccountInfo info = getBaseAccountinfo(passwordCheck);
+        BaseAccountInfo info = getBaseAccountinfo();
 
         double overdraftLimit = 200;
-        CheckingAccount c1 = new CheckingAccount(info.accHolder(),0,overdraftLimit ,info.password(),overdraftLimit);
+        CheckingAccount c1 = new CheckingAccount(info.accHolder(),0,overdraftLimit ,info.password());
         Bank.getInstance().addAccount(c1);
         System.out.println("Account created.");
     }
@@ -103,7 +103,6 @@ public class AccountManager {
 
     public static void makeTransfer()
     {
-        BankAccount transferAcc = null;
         int accNumber = InputUtils.readInt("Enter account number?");
         BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
         if (account == null) {
@@ -114,7 +113,7 @@ public class AccountManager {
         if (!login) return;
 
         int transferAccNum = InputUtils.readInt("Enter the account number that you want to transfer");
-        transferAcc = Bank.getInstance().getAccByNumber(transferAccNum);
+        BankAccount transferAcc = Bank.getInstance().getAccByNumber(transferAccNum);
 
         if (transferAcc != null)
         {
@@ -159,7 +158,8 @@ public class AccountManager {
         }
     }
 
-    private static BaseAccountInfo getBaseAccountinfo(PasswordCheck passwordCheck) {
+    private static BaseAccountInfo getBaseAccountinfo()
+    {
         String accHolder = InputUtils.readName("Enter Acc Holder Name");
 
         String password;
@@ -183,16 +183,16 @@ public class AccountManager {
             long now = System.currentTimeMillis();
 
             // if there is a suspension value set, decide whether it's still active or expired
-            if (account.suspendedUntilMillis != 0) {
-                if (account.suspendedUntilMillis > now) {
-                    long timeLeft = (account.suspendedUntilMillis - now) / 1000;
+            if (account.getSuspendedUntilMillis() != 0) {
+                if (account.getSuspendedUntilMillis() > now) {
+                    long timeLeft = (account.getSuspendedUntilMillis() - now) / 1000;
                     System.out.printf("Account suspended. Try again in %s min %s second later. %n" , timeLeft / 60 , timeLeft % 60);
                     return false;
                 } else {
                     // suspension expired -> clear
-                    account.suspendedUntilMillis = 0;
-                    account.isSuspended = false;
-                    account.passTrialCounter = 0;
+                    account.setSuspendedUntilMillis(0);
+                    account.setSuspended(false);
+                    account.setPassTrialCounter(0);
                 }
             }
 
@@ -207,18 +207,19 @@ public class AccountManager {
             boolean isPassMatched = enteredPass.equals(account.getPassword());
             if (isPassMatched)
             {
-                account.passTrialCounter = 0;
-                account.isSuspended = false;
+                account.setSuspendedUntilMillis(0);
+                account.setSuspended(false);
+                account.setPassTrialCounter(0);
                 return true;
             }
 
             // wrong password
             System.out.println("Wrong password!");
-            account.passTrialCounter++;
+            account.setPassTrialCounter(account.getPassTrialCounter() + 1);
 
-            if (account.passTrialCounter >= 3) {
-                account.isSuspended = true;
-                account.suspendedUntilMillis = now + (5 * 60 * 1000); // 5 minutes
+            if (account.getPassTrialCounter() >= 3) {
+                account.setSuspended(true);
+                account.setSuspendedUntilMillis(now + (5 * 60 * 1000)); // 5 minutes
                 System.out.println("Account suspended for 5 minutes due to repeated failed attempts.");
                 return false;
             }

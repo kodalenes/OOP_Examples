@@ -15,24 +15,24 @@ import java.util.List;
 
 public class BankAccount {
     //Account Info
-    protected int accNumber;
-    protected String accHolder;
-    protected double balance;
-    protected String accType;
+    private int accNumber;
+    private String accHolder;
+    private double balance;
+    private String accType;
     //Password
-    protected String password;
-    protected int passTrialCounter;
-    protected boolean isSuspended;
+    private String password;
+    private int passTrialCounter;
+    private boolean isSuspended;
 
     // new field to store suspension expiry in millis
-    protected long suspendedUntilMillis;
+    private long suspendedUntilMillis;
 
-    protected double DAILY_WITHDRAWAL_LIMIT = 5000;
-    protected double amountWithdrawnToday;
+    private double DAILY_WITHDRAWAL_LIMIT = 5000;
+    private double amountWithdrawnToday;
     private static int accNumberMaker = 1000;
     //Date
-    protected LocalDate today;
-    protected LocalDate lastWithdrawalDate;
+    private LocalDate today;
+    private LocalDate lastWithdrawalDate;
 
     private List<Transaction> history; // initialize in constructor
 
@@ -154,7 +154,7 @@ public class BankAccount {
         BankAccount.accNumberMaker = accNumberMaker;
     }
 
-    public void setAccHolder(String accHolder) throws InvalidNameException {
+    protected void setAccHolder(String accHolder) throws InvalidNameException {
 
         if (Validator.isValidAccountHolder(accHolder))
         {
@@ -165,11 +165,11 @@ public class BankAccount {
         }
     }
 
-    public void setAccNumber(int accNumber) {
+    protected void setAccNumber(int accNumber) {
         this.accNumber = accNumber;
     }
 
-    public void setBalance(double balance)
+    protected void setBalance(double balance)
     {
         this.balance = balance;
     }
@@ -178,7 +178,7 @@ public class BankAccount {
         return accNumberMaker;
     }
 
-    public String getAccHolder() {
+    protected String getAccHolder() {
         return accHolder;
     }
 
@@ -186,7 +186,7 @@ public class BankAccount {
         return accNumber;
     }
 
-    public double getBalance() {
+    protected double getBalance() {
         return balance;
     }
 
@@ -208,6 +208,62 @@ public class BankAccount {
 
     public double getDAILY_WITHDRAWAL_LIMIT() {
         return DAILY_WITHDRAWAL_LIMIT;
+    }
+
+    public long getSuspendedUntilMillis() {
+        return suspendedUntilMillis;
+    }
+
+    public double getAmountWithdrawnToday() {
+        return amountWithdrawnToday;
+    }
+
+    public void setAccType(String accType) {
+        this.accType = accType;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPassTrialCounter(int passTrialCounter) {
+        this.passTrialCounter = passTrialCounter;
+    }
+
+    public boolean isSuspended() {
+        return isSuspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        isSuspended = suspended;
+    }
+
+    public void setSuspendedUntilMillis(long suspendedUntilMillis) {
+        this.suspendedUntilMillis = suspendedUntilMillis;
+    }
+
+    public void setAmountWithdrawnToday(double amountWithdrawnToday) {
+        this.amountWithdrawnToday = amountWithdrawnToday;
+    }
+
+    public LocalDate getToday() {
+        return today;
+    }
+
+    public void setToday(LocalDate today) {
+        this.today = today;
+    }
+
+    public LocalDate getLastWithdrawalDate() {
+        return lastWithdrawalDate;
+    }
+
+    public void setLastWithdrawalDate(LocalDate lastWithdrawalDate) {
+        this.lastWithdrawalDate = lastWithdrawalDate;
+    }
+
+    public void setHistory(List<Transaction> history) {
+        this.history = history;
     }
 
     public List<Transaction> getHistory() {

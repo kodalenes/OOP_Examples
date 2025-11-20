@@ -13,9 +13,9 @@ public class SavingAccount extends BankAccount{
 
     public void addInterest()
     {
-        balance += (balance * interestRate);
+        setBalance(getBalance() + (getBalance() * interestRate));
         System.out.println("Interest added to the account");
-        System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
+        System.out.printf("%s Balance is %.2f %n" , getAccHolder() , getBalance());
     }
 
     @Override
@@ -39,10 +39,10 @@ public class SavingAccount extends BankAccount{
     public void displayAccountInfo() {
         System.out.printf(
                 "Account Number: %s ,Account Holder: %s , Balance: %.2f , Type: %s, Interest Rate: %.2f%n" ,
-                accNumber ,
-                accHolder ,
+                getAccNumber() ,
+                getAccHolder() ,
                 getBalance() ,
-                accType ,
+                getAccType() ,
                 interestRate);
     }
 

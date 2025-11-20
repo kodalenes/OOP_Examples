@@ -3,7 +3,7 @@ package Account;
 public class CheckingAccount extends BankAccount{
 
     private double overdraftLimit;
-    CheckingAccount(String accHolder , double balance ,double overdraftLimit,String password, double interestRate)
+    CheckingAccount(String accHolder , double balance ,double overdraftLimit,String password)
     {
         super(accHolder,balance ,password, "Checking");
         this.overdraftLimit = overdraftLimit;
@@ -12,18 +12,18 @@ public class CheckingAccount extends BankAccount{
     @Override
     public void withdraw(double amount)
     {
-        if (balance >= amount)
+        if (getBalance() >= amount)
         {
             super.withdraw(amount);
         }
-        else if (balance < amount && getAvailableBalance() >= amount)
+        else if (getBalance() < amount && getAvailableBalance() >= amount)
         {
-            double usedOverdraftLimit = amount - balance;
+            double usedOverdraftLimit = amount - getBalance();
             overdraftLimit -= usedOverdraftLimit;
-            balance = 0;
+            setBalance(0);
             System.out.println("Withdraw successful with overdraft limit.");
-            System.out.printf("%s Balance is %.2f%n" , accHolder , getBalance());
-            System.out.printf("%s Overdraft limit is %.2f%n" , accHolder , overdraftLimit);
+            System.out.printf("%s Balance is %.2f%n" , getAccHolder() , getBalance());
+            System.out.printf("%s Overdraft limit is %.2f%n" , getAccHolder() , overdraftLimit);
         }else
         {
             System.out.println("Insufficient balance and overdraft limit!");
@@ -39,11 +39,11 @@ public class CheckingAccount extends BankAccount{
     public void displayAccountInfo() {
         System.out.printf(
                 "Account Number: %s ,Account Holder: %s , Balance: %.2f , Type: %s, OverdraftLimit : %.2f , Available Balance: %.2f%n" ,
-                                    accNumber ,
-                                    accHolder ,
-                                    getBalance() ,
-                                    accType ,
-                                    overdraftLimit ,
+                                    getAccNumber(),
+                                    getAccHolder(),
+                                    getBalance(),
+                                    getAccType(),
+                                    overdraftLimit,
                                     getAvailableBalance());
     }
 

@@ -35,7 +35,7 @@ public class PasswordCheck {
         return password;
     }
 
-    public int getPASSWORD_LENGHT() {
+    public int getPASSWORD_LENGTH() {
         return PASSWORD_LENGTH;
     }
 }
