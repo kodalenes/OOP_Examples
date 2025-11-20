@@ -2,6 +2,7 @@ package Account;
 import Transaction.Transaction;
 import Transaction.TransactionType;
 import Utils.Validator;
+
 import Exceptions.DailyLimitExceededException;
 import Exceptions.InsufficientBalanceException;
 import Exceptions.InvalidAmountException;
@@ -143,13 +144,11 @@ public class BankAccount {
         }
         for (Transaction t : history)
         {
-
             System.out.println(t);
         }
     }
 
     //Setter&Getter
-
 
     public static void setAccNumberMaker(int accNumberMaker) {
         BankAccount.accNumberMaker = accNumberMaker;
@@ -194,6 +193,7 @@ public class BankAccount {
     public String getAccType() {
         return accType;
     }
+
     public String getPassword() {
         return password;
     }

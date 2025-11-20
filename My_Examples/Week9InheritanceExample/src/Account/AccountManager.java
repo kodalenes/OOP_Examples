@@ -38,7 +38,7 @@ public class AccountManager {
         BaseAccountInfo info = getBaseAccountinfo(passwordCheck);
 
         SavingAccount s1 = new SavingAccount(info.accHolder,0, info.password,0.05);
-        Bank.addAccount(s1);
+        Bank.getInstance().addAccount(s1);
         System.out.println("Account created.");
     }
 
@@ -48,20 +48,20 @@ public class AccountManager {
 
         double overdraftLimit = 200;
         CheckingAccount c1 = new CheckingAccount(info.accHolder(),0,overdraftLimit ,info.password(),overdraftLimit);
-        Bank.addAccount(c1);
+        Bank.getInstance().addAccount(c1);
         System.out.println("Account created.");
     }
 
     public static void DeleteAccount()
     {
         int accNum = InputUtils.readInt("Enter the account number that you want to delete");
-        Bank.removeByNumber(accNum);
+        Bank.getInstance().removeByNumber(accNum);
     }
 
     public static void makeDeposit()
     {
         int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getAccByNumber(accNumber);
+        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
         if (account == null) {
             System.out.println("Account not found!");
             return;
@@ -82,7 +82,7 @@ public class AccountManager {
     public static void makeWithdraw()
     {
         int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getAccByNumber(accNumber);
+        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
         if (account == null) {
             System.out.println("Account not found!");
             return;
@@ -105,7 +105,7 @@ public class AccountManager {
     {
         BankAccount transferAcc = null;
         int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getAccByNumber(accNumber);
+        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
         if (account == null) {
             System.out.println("Account not found!");
             return;
@@ -114,7 +114,7 @@ public class AccountManager {
         if (!login) return;
 
         int transferAccNum = InputUtils.readInt("Enter the account number that you want to transfer");
-        transferAcc = Bank.getAccByNumber(transferAccNum);
+        transferAcc = Bank.getInstance().getAccByNumber(transferAccNum);
 
         if (transferAcc != null)
         {
@@ -132,7 +132,7 @@ public class AccountManager {
     public static void updateAccount()
     {
         int accNumber = InputUtils.readInt("Enter account number that you want to update");
-        BankAccount account = Bank.getAccByNumber(accNumber);
+        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
         if (account != null) {
             account.displayTransactionHistory();
             String newAccHolder;
@@ -151,7 +151,7 @@ public class AccountManager {
     public static void displayTransactionHistoryByNumber()
     {
         int accNumber = InputUtils.readInt("Enter account number that you want to display transaction history");
-        BankAccount account = Bank.getAccByNumber(accNumber);
+        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
 
         if (account != null)
         {

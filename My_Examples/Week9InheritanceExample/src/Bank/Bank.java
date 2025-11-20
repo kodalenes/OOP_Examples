@@ -19,12 +19,13 @@ public class Bank {
     private static final ArrayList<BankAccount> accounts = new ArrayList<>();
 
     private Bank(){}
-    public static void addAccount(BankAccount account)
+
+    public  void addAccount(BankAccount account)
     {
         accounts.add(account);
     }
 
-    public static BankAccount getAccByNumber(int accNumber)
+    public  BankAccount getAccByNumber(int accNumber)
     {
         for (BankAccount b:accounts)
         {
@@ -37,7 +38,7 @@ public class Bank {
         return null;
     }
 
-    public static void removeByNumber(int accNumber)
+    public  void removeByNumber(int accNumber)
     {
         BankAccount toRemove = null;
 
@@ -74,7 +75,7 @@ public class Bank {
         }
     }
 
-    public static void displayAll()
+    public  void displayAll()
     {
         if (accounts.isEmpty())
         {
@@ -84,7 +85,7 @@ public class Bank {
         for (BankAccount a: accounts) a.displayAccountInfo();
     }
 
-    public static void saveToJson()
+    public  void saveToJson()
     {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
@@ -99,7 +100,7 @@ public class Bank {
         }
     }
 
-    public static void loadFromJson()
+    public  void loadFromJson()
     {
         File file = new File(BANK_ACCOUNT_FILE);
         if (!file.exists())
@@ -135,7 +136,7 @@ public class Bank {
         }
     }
 
-    public static void saveAccNumber()
+    public  void saveAccNumber()
     {
         Gson gson = new Gson();
         try (FileWriter writer = new FileWriter(ACCOUNT_COUNTER_FILE)) {
@@ -145,7 +146,7 @@ public class Bank {
         }
     }
 
-    public static void loadAccNumber()
+    public  void loadAccNumber()
     {
         File file = new File(ACCOUNT_COUNTER_FILE);
         if (!file.exists()) {

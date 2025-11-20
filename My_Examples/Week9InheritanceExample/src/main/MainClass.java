@@ -18,8 +18,8 @@ public class MainClass {
     private static void MainMenu()
     {
         PasswordCheck passwordCheck = new PasswordCheck();
-        Bank.loadAccNumber();
-        Bank.loadFromJson();
+        Bank.getInstance().loadAccNumber();
+        Bank.getInstance().loadFromJson();
         boolean isOver = false;
         do {
             System.out.println("1- Create Account");
@@ -50,7 +50,7 @@ public class MainClass {
                     AccountManager.makeTransfer();
                     break;
                 case 6:
-                    Bank.displayAll();
+                    Bank.getInstance().displayAll();
                     break;
                 case 7:
                     AccountManager.displayTransactionHistoryByNumber();
@@ -60,8 +60,8 @@ public class MainClass {
                     break;
                 case 0:
                     isOver = true;
-                    Bank.saveToJson();
-                    Bank.saveAccNumber();
+                    Bank.getInstance().saveToJson();
+                    Bank.getInstance().saveAccNumber();
                     break;
             }
         }while(!isOver);
