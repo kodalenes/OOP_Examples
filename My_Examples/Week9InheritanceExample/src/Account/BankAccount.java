@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankAccount {
+public abstract class BankAccount {
     //Account Info
     private int accNumber;
     private String accHolder;
@@ -126,14 +126,7 @@ public class BankAccount {
         to.history.add(new Transaction(TransactionType.TRANSFER_IN,amount,getBalance(),"Gelen hesap:" + this.accNumber));
     }
 
-    public void displayAccountInfo()
-    {
-        System.out.printf("Account Number: %s ,Account Holder: %s , Balance: %.2f , Account type: %s%n" ,
-                accNumber ,
-                accHolder ,
-                getBalance() ,
-                accType);
-    }
+    public abstract void displayAccountInfo();
 
     public void displayTransactionHistory()
     {
