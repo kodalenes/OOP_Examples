@@ -1,4 +1,5 @@
 package Utils;
+import main.MainClass;
 
 public class InputUtils {
 

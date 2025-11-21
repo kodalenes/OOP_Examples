@@ -16,28 +16,20 @@ public class AccountManager {
             System.out.println("0- Back");
             int choice = InputUtils.readInt("Your choice");
             switch (choice) {
-                case 1:
-                    createCheckingAcc();
-                    break;
-                case 2:
-                    createSavingAcc();
-                    break;
-                case 0:
-                    isOver = true;
-                    break;
-                default:
+                case 1 -> createCheckingAcc();
+                case 2 -> createSavingAcc();
+                case 0 -> isOver = true;
+                default ->
                     System.out.println("Invalid choice! Try again!");
-                    break;
             }
         } while (!isOver);
-
     }
 
     public static void createSavingAcc()
     {
         BaseAccountInfo info = getBaseAccountinfo();
 
-        SavingAccount s1 = new SavingAccount(info.accHolder(),0, info.password(),0.05);
+        SavingAccount s1 = new SavingAccount(info.accHolder(), info.password(),0.05);
         Bank.getInstance().addAccount(s1);
         System.out.println("Account created.");
     }
@@ -47,7 +39,7 @@ public class AccountManager {
         BaseAccountInfo info = getBaseAccountinfo();
 
         double overdraftLimit = 200;
-        CheckingAccount c1 = new CheckingAccount(info.accHolder(),0,overdraftLimit ,info.password());
+        CheckingAccount c1 = new CheckingAccount(info.accHolder(),overdraftLimit ,info.password());
         Bank.getInstance().addAccount(c1);
         System.out.println("Account created.");
     }

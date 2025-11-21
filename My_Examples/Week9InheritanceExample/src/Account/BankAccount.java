@@ -37,11 +37,11 @@ public class BankAccount {
     private List<Transaction> history; // initialize in constructor
 
     //Constructor
-    BankAccount(String accHolder , double balance , String password ,String accType)
+    BankAccount(String accHolder, String password ,String accType)
     {
-        this.accHolder = accHolder;
         this.accNumber = accNumberMaker;
-        this.balance = balance;
+        this.accHolder = accHolder;
+        this.balance = 0;
         this.password = password;
         this.accType = accType;
         accNumberMaker++;

@@ -5,9 +5,9 @@ public class SavingAccount extends BankAccount{
     private double interestRate = 0.05; //%5
     private int withdrawalCount = 0;
 
-    SavingAccount(String accHolder , double balance ,String password, double interestRate)
+    SavingAccount(String accHolder,String password, double interestRate)
     {
-        super(accHolder,balance , password,"Saving");
+        super(accHolder, password,"Saving");
         this.interestRate = interestRate;
     }
 

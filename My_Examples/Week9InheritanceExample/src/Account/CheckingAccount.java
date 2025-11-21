@@ -3,9 +3,9 @@ package Account;
 public class CheckingAccount extends BankAccount{
 
     private double overdraftLimit;
-    CheckingAccount(String accHolder , double balance ,double overdraftLimit,String password)
+    CheckingAccount(String accHolder,double overdraftLimit,String password)
     {
-        super(accHolder,balance ,password, "Checking");
+        super(accHolder,password, "Checking");
         this.overdraftLimit = overdraftLimit;
     }
 

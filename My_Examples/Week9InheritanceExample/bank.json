@@ -2,12 +2,12 @@
   {
     "accNumber": 1001,
     "accHolder": "Mahmut",
-    "balance": 300.0,
+    "balance": 200.0,
     "accType": "Checking",
     "password": "123123",
-    "passTrialCounter": 3,
-    "isSuspended": true,
-    "suspendedUntilMillis": 1763583411033,
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
     "DAILY_WITHDRAWAL_LIMIT": 5000.0,
     "amountWithdrawnToday": 600.0,
     "today": "2025-11-18",
@@ -37,6 +37,13 @@
         "transactionDate": "2025-11-18 00:29:47",
         "balanceAfterTransaction": 300.0,
         "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_OUT",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 200.0,
+        "amount": 100.0,
+        "note": "Gonderilen hesap:1004"
       }
     ]
   },
@@ -83,7 +90,7 @@
   {
     "accNumber": 1004,
     "accHolder": "Muhammet",
-    "balance": 0.0,
+    "balance": 100.0,
     "accType": "Checking",
     "password": "123123",
     "passTrialCounter": 0,
@@ -91,6 +98,20 @@
     "suspendedUntilMillis": 0,
     "DAILY_WITHDRAWAL_LIMIT": 5000.0,
     "amountWithdrawnToday": 0.0,
-    "history": []
+    "history": [
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 100.0,
+        "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_IN",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 200.0,
+        "amount": 100.0,
+        "note": "Gelen hesap:1001"
+      }
+    ]
   }
 ]
