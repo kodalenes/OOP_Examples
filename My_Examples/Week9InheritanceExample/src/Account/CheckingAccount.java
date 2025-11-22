@@ -5,7 +5,8 @@ public class CheckingAccount extends BankAccount{
     private double overdraftLimit;
     CheckingAccount(String accHolder,double overdraftLimit,String password)
     {
-        super(accHolder,password, "Checking");
+        super(accHolder,password);
+        setAccType(AccountType.CHECKING);
         this.overdraftLimit = overdraftLimit;
     }
 

@@ -18,7 +18,7 @@ public abstract class BankAccount {
     private int accNumber;
     private String accHolder;
     private double balance;
-    private String accType;
+    private AccountType accType;
     //Password
     private String password;
     private int passTrialCounter;
@@ -37,13 +37,12 @@ public abstract class BankAccount {
     private List<Transaction> history; // initialize in constructor
 
     //Constructor
-    BankAccount(String accHolder, String password ,String accType)
+    BankAccount(String accHolder, String password)
     {
         this.accNumber = accNumberMaker;
         this.accHolder = accHolder;
         this.balance = 0;
         this.password = password;
-        this.accType = accType;
         accNumberMaker++;
         this.history = new ArrayList<>();
         this.suspendedUntilMillis = 0;
@@ -183,7 +182,7 @@ public abstract class BankAccount {
         return balance;
     }
 
-    public String getAccType() {
+    public AccountType getAccType() {
         return accType;
     }
 
@@ -211,7 +210,7 @@ public abstract class BankAccount {
         return amountWithdrawnToday;
     }
 
-    public void setAccType(String accType) {
+    public void setAccType(AccountType accType) {
         this.accType = accType;
     }
 

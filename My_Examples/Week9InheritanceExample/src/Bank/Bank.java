@@ -1,4 +1,6 @@
 package Bank;
+import Exceptions.AccountNotFoundException;
+import Utils.BankAccountAdapter;
 import Utils.LocalDateAdapter;
 import java.io.*;
 import java.lang.reflect.Type;
@@ -25,49 +27,40 @@ public class Bank {
         accounts.add(account);
     }
 
-    public  BankAccount getAccByNumber(int accNumber)
+    public  BankAccount getAccByNumber(int accNumber) throws AccountNotFoundException
     {
-        for (BankAccount b:accounts)
-        {
-            if (b.getAccNumber() == accNumber)
-            {
-                return b;
-            }
-        }
-        System.out.println("Account not found!");
-        return null;
+        return accounts.stream()
+                .filter(bankAccount -> bankAccount.getAccNumber() == accNumber)
+                .findFirst()
+                .orElseThrow(() -> new AccountNotFoundException("Account not found!"));
     }
 
-    public  void removeByNumber(int accNumber)
+    public  void removeByNumber(int accNumber) throws AccountNotFoundException
     {
         BankAccount toRemove = null;
 
         toRemove = accounts.stream()
                  .filter(acc ->acc.getAccNumber() == accNumber)
                  .findFirst()
-                 .orElse(null);
+                .orElseThrow(() -> new AccountNotFoundException("Account not found!"));
 
-        if (toRemove != null)
+
+        accounts.remove(toRemove);
+        System.out.println("Account deleted successfully");
+
+        if (accounts.isEmpty())
         {
-            accounts.remove(toRemove);
-            System.out.println("Account deleted successfully");
-
-            if (accounts.isEmpty())
-            {
-                BankAccount.setAccNumberMaker(1000);
-            }else
-            {
-                int maxAccNumber = accounts.stream()
-                        .mapToInt(BankAccount::getAccNumber)
-                        .max()
-                        .orElse(999);
-                BankAccount.setAccNumberMaker(maxAccNumber + 1);
-            }
-            saveAccNumber();
+            BankAccount.setAccNumberMaker(1000);
         }else
         {
-            System.out.println("Account not found");
+            int maxAccNumber = accounts.stream()
+                    .mapToInt(BankAccount::getAccNumber)
+                    .max()
+                    .orElse(999);
+            BankAccount.setAccNumberMaker(maxAccNumber + 1);
         }
+        saveAccNumber();
+
     }
 
     public  void displayAll()
@@ -105,6 +98,7 @@ public class Bank {
         }
 
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(BankAccount.class , new BankAccountAdapter())
                 .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
                 .create();
 

@@ -1,5 +1,7 @@
 package Account;
 import javax.naming.InvalidNameException;
+
+import Exceptions.AccountNotFoundException;
 import Utils.PasswordCheck;
 import Utils.InputUtils;
 import Bank.Bank;
@@ -46,85 +48,82 @@ public class AccountManager {
 
     public static void DeleteAccount()
     {
-        int accNum = InputUtils.readInt("Enter the account number that you want to delete");
-        Bank.getInstance().removeByNumber(accNum);
+        try {
+            int accNum = InputUtils.readInt("Enter the account number that you want to delete");
+            Bank.getInstance().removeByNumber(accNum);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void makeDeposit()
     {
         int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
-        if (account == null) {
-            System.out.println("Account not found!");
-            return;
-        }
-        boolean login = AccountManager.login(account);
+        BankAccount account = null;
+        try {
+            account = Bank.getInstance().getAccByNumber(accNumber);
 
-        if (login)
-        {
-            double amount = InputUtils.readDouble("Enter the amount to deposit");
-            try {
+            boolean login = AccountManager.login(account);
+
+            if (login)
+            {
+                double amount = InputUtils.readDouble("Enter the amount to deposit");
                 account.deposit(amount);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void makeWithdraw()
     {
         int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
-        if (account == null) {
-            System.out.println("Account not found!");
-            return;
-        }
+        BankAccount account = null;
+        try {
+            account = Bank.getInstance().getAccByNumber(accNumber);
 
-        boolean login = AccountManager.login(account);
+            boolean login = AccountManager.login(account);
 
-        if (login)
-        {
-            try {
+            if (login)
+            {
                 double amount = InputUtils.readDouble("Enter the amount to withdraw");
                 account.withdraw(amount);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void makeTransfer()
     {
-        int accNumber = InputUtils.readInt("Enter account number?");
-        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
-        if (account == null) {
-            System.out.println("Account not found!");
-            return;
-        }
-        boolean login = AccountManager.login(account);
-        if (!login) return;
+        try {
+            int accNumber = InputUtils.readInt("Enter account number?");
+            BankAccount account = null;
 
-        int transferAccNum = InputUtils.readInt("Enter the account number that you want to transfer");
-        BankAccount transferAcc = Bank.getInstance().getAccByNumber(transferAccNum);
+            account = Bank.getInstance().getAccByNumber(accNumber);
+            boolean login = AccountManager.login(account);
+            if (!login) return;
 
-        if (transferAcc != null)
-        {
+            int transferAccNum = InputUtils.readInt("Enter the account number that you want to transfer");
+            BankAccount transferAcc = null;
+
+            transferAcc = Bank.getInstance().getAccByNumber(transferAccNum);
+
             double amount = InputUtils.readDouble("Enter the amount to transfer");
-            try {
-                account.transfer(transferAcc, amount);
-
-            } catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-            }
+            account.transfer(transferAcc, amount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void updateAccount()
     {
-        int accNumber = InputUtils.readInt("Enter account number that you want to update");
-        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
-        if (account != null) {
+        try {
+            int accNumber = InputUtils.readInt("Enter account number that you want to update");
+            BankAccount account = null;
+
+            account = Bank.getInstance().getAccByNumber(accNumber);
+
             account.displayTransactionHistory();
             String newAccHolder;
             do {
@@ -136,17 +135,22 @@ public class AccountManager {
                     System.out.println(e.getMessage());
                 }
             } while (true);
+
+        } catch (AccountNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void displayTransactionHistoryByNumber()
     {
-        int accNumber = InputUtils.readInt("Enter account number that you want to display transaction history");
-        BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
+        try {
+            int accNumber = InputUtils.readInt("Enter account number that you want to display transaction history");
+            BankAccount account = null;
 
-        if (account != null)
-        {
+            account = Bank.getInstance().getAccByNumber(accNumber);
             account.displayTransactionHistory();
+        } catch (AccountNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 

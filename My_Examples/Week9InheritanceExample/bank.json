@@ -1,1 +1,132 @@
-[]
+[
+  {
+    "overdraftLimit": 0.0,
+    "accNumber": 1001,
+    "accHolder": "Mahmut",
+    "balance": 200.0,
+    "password": "123123",
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
+    "DAILY_WITHDRAWAL_LIMIT": 5000.0,
+    "amountWithdrawnToday": 600.0,
+    "today": "2025-11-18",
+    "lastWithdrawalDate": "2025-11-18",
+    "history": [
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-17 23:58:46",
+        "balanceAfterTransaction": 1000.0,
+        "amount": 1000.0
+      },
+      {
+        "transactionType": "WITHDRAW",
+        "transactionDate": "2025-11-18 00:28:39",
+        "balanceAfterTransaction": 500.0,
+        "amount": 500.0
+      },
+      {
+        "transactionType": "TRANSFER_OUT",
+        "transactionDate": "2025-11-18 00:29:16",
+        "balanceAfterTransaction": 400.0,
+        "amount": 100.0,
+        "note": "Gonderilen hesap:1002"
+      },
+      {
+        "transactionType": "WITHDRAW",
+        "transactionDate": "2025-11-18 00:29:47",
+        "balanceAfterTransaction": 300.0,
+        "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_OUT",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 200.0,
+        "amount": 100.0,
+        "note": "Gonderilen hesap:1004"
+      }
+    ]
+  },
+  {
+    "overdraftLimit": 0.0,
+    "accNumber": 1002,
+    "accHolder": "Talha",
+    "balance": 100.0,
+    "password": "123123",
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
+    "DAILY_WITHDRAWAL_LIMIT": 5000.0,
+    "amountWithdrawnToday": 0.0,
+    "history": [
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-18 00:29:16",
+        "balanceAfterTransaction": 100.0,
+        "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_IN",
+        "transactionDate": "2025-11-18 00:29:16",
+        "balanceAfterTransaction": 400.0,
+        "amount": 100.0,
+        "note": "Gelen hesap:1001"
+      }
+    ]
+  },
+  {
+    "overdraftLimit": 0.0,
+    "accNumber": 1003,
+    "accHolder": "Kaşar",
+    "balance": 0.0,
+    "password": "123123",
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
+    "DAILY_WITHDRAWAL_LIMIT": 5000.0,
+    "amountWithdrawnToday": 0.0,
+    "history": []
+  },
+  {
+    "overdraftLimit": 0.0,
+    "accNumber": 1004,
+    "accHolder": "Muhammet",
+    "balance": 100.0,
+    "password": "123123",
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
+    "DAILY_WITHDRAWAL_LIMIT": 5000.0,
+    "amountWithdrawnToday": 0.0,
+    "history": [
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 100.0,
+        "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_IN",
+        "transactionDate": "2025-11-21 23:26:06",
+        "balanceAfterTransaction": 200.0,
+        "amount": 100.0,
+        "note": "Gelen hesap:1001"
+      }
+    ]
+  },
+  {
+    "interestRate": 0.05,
+    "withdrawalCount": 0,
+    "accNumber": 1005,
+    "accHolder": "Kasgarli Mahmut",
+    "balance": 0.0,
+    "accType": "SAVING",
+    "password": "123123",
+    "passTrialCounter": 0,
+    "isSuspended": false,
+    "suspendedUntilMillis": 0,
+    "DAILY_WITHDRAWAL_LIMIT": 5000.0,
+    "amountWithdrawnToday": 0.0,
+    "history": []
+  }
+]

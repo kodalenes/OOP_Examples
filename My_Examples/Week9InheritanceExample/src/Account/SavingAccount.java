@@ -7,7 +7,8 @@ public class SavingAccount extends BankAccount{
 
     SavingAccount(String accHolder,String password, double interestRate)
     {
-        super(accHolder, password,"Saving");
+        super(accHolder, password);
+        setAccType(AccountType.SAVING);
         this.interestRate = interestRate;
     }
 
