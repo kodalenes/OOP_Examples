@@ -1,2 +1,7 @@
 [2025-11-22 17:13:01] NEW ACCOUNT: Created new Saving account with ID: 1007
 [2025-11-22 17:31:29] NEW ACCOUNT: Created new Saving account with ID: 1008
+[2025-11-22 17:34:19] NEW ACCOUNT: Created new Checking account with ID: 1009
+[2025-11-22 17:42:04] NEW ACCOUNT: Created new Checking account with ID: 1009
+[2025-11-22 17:43:20] NEW ACCOUNT: Created new Checking account with ID: 1010
+[2025-11-22 17:49:56] NEW ACCOUNT: Created new Checking account with ID: 1010
+[2025-11-22 17:50:09] NEW ACCOUNT: Created new Saving account with ID: 1011

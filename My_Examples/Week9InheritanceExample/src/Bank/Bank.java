@@ -48,17 +48,6 @@ public class Bank {
         accounts.remove(toRemove);
         System.out.println("Account deleted successfully");
 
-        if (accounts.isEmpty())
-        {
-            BankAccount.setAccNumberMaker(1000);
-        }else
-        {
-            int maxAccNumber = accounts.stream()
-                    .mapToInt(BankAccount::getAccNumber)
-                    .max()
-                    .orElse(999);
-            BankAccount.setAccNumberMaker(maxAccNumber + 1);
-        }
         saveAccNumber();
 
     }
@@ -117,6 +106,18 @@ public class Bank {
                 }
                 accounts.addAll(loadedAccounts);
                 System.out.println("Accounts loaded from JSON!");
+
+                int maxAccNumber = accounts.stream()
+                        .mapToInt(BankAccount::getAccNumber)
+                        .max()
+                        .orElse(999);
+                int currentCounter = BankAccount.getAccNumberMaker();
+
+                if (maxAccNumber >= currentCounter)
+                {
+                    BankAccount.setAccNumberMaker(maxAccNumber + 1);
+                    saveAccNumber();
+                }
             } else {
                 System.out.println("JSON file empty , starting fresh.");
             }
