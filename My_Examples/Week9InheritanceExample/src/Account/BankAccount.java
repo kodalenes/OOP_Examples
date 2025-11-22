@@ -1,6 +1,7 @@
 package Account;
 import Transaction.Transaction;
 import Transaction.TransactionType;
+import Utils.Logger;
 import Utils.Validator;
 
 import Exceptions.DailyLimitExceededException;
@@ -60,6 +61,7 @@ public abstract class BankAccount {
         System.out.println("Successfully deposit " + amount);
         System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
         history.add(new Transaction(TransactionType.DEPOSIT,amount,getBalance(),null));
+        Logger.log(String.format("DEPOSIT: Account %d received %.2f. New Balance: %.2f", accNumber, amount, balance));
     }
 
     public void withdraw(double amount)
@@ -92,6 +94,7 @@ public abstract class BankAccount {
             System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
             System.out.printf("%s remaining daily withdraw limit is: %.2f%n" , accHolder ,currentRemainingLimit);
             history.add(new Transaction(TransactionType.WITHDRAW,amount,getBalance(),null));
+            Logger.log(String.format("WITHDRAW: Account %d withdrew %.2f. Remaining Balance: %.2f", accNumber, amount, balance));
         }
     }
 
@@ -123,6 +126,7 @@ public abstract class BankAccount {
         System.out.println("Transfer successful");
         this.history.add(new Transaction(TransactionType.TRANSFER_OUT,amount,getBalance(),"Gonderilen hesap:" + to.accNumber));
         to.history.add(new Transaction(TransactionType.TRANSFER_IN,amount,getBalance(),"Gelen hesap:" + this.accNumber));
+        Logger.log(String.format("TRANSFER: %.2f transferred from Account %d to Account %d.", amount, this.accNumber, to.getAccNumber()));
     }
 
     public abstract void displayAccountInfo();

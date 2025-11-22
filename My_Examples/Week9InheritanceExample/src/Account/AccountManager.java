@@ -5,6 +5,7 @@ import Exceptions.AccountNotFoundException;
 import Utils.PasswordCheck;
 import Utils.InputUtils;
 import Bank.Bank;
+import Utils.Logger;
 
 public class AccountManager {
 
@@ -34,6 +35,7 @@ public class AccountManager {
         SavingAccount s1 = new SavingAccount(info.accHolder(), info.password(),0.05);
         Bank.getInstance().addAccount(s1);
         System.out.println("Account created.");
+        Logger.log(String.format("NEW ACCOUNT: Created new Saving account with ID: %d", s1.getAccNumber()));
     }
 
     public static void createCheckingAcc()
@@ -44,15 +46,18 @@ public class AccountManager {
         CheckingAccount c1 = new CheckingAccount(info.accHolder(),overdraftLimit ,info.password());
         Bank.getInstance().addAccount(c1);
         System.out.println("Account created.");
+        Logger.log(String.format("NEW ACCOUNT: Created new Checking account with ID: %d", c1.getAccNumber()));
     }
 
     public static void DeleteAccount()
     {
+        int accNum = 0;
         try {
-            int accNum = InputUtils.readInt("Enter the account number that you want to delete");
+            accNum = InputUtils.readInt("Enter the account number that you want to delete");
             Bank.getInstance().removeByNumber(accNum);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            Logger.log(String.format("DELETE ACCOUNT: Account %d has been removed from the system.", accNum));
         }
     }
 

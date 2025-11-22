@@ -24,9 +24,9 @@ public class BankAccountAdapter implements JsonDeserializer<BankAccount> {
         //hesap tipini string olarak sakliyoruz
         String accType = typeElement.getAsString();
 
-        return switch (accType){
-            case "Checking" -> jsonDeserializationContext.deserialize(jsonElement, CheckingAccount.class);
-            case "Saving" -> jsonDeserializationContext.deserialize(jsonElement, SavingAccount.class);
+        return switch (accType.toUpperCase()){
+            case "CHECKING" -> jsonDeserializationContext.deserialize(jsonElement, CheckingAccount.class);
+            case "SAVING" -> jsonDeserializationContext.deserialize(jsonElement, SavingAccount.class);
             default -> throw new JsonParseException("Unknown account type: " + accType);
         };
     }
