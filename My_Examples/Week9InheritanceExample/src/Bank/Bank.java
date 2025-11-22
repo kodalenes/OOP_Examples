@@ -42,15 +42,10 @@ public class Bank {
     {
         BankAccount toRemove = null;
 
-        //Find the toremove accnum
-        for (BankAccount account : accounts)
-        {
-            if (account.getAccNumber() == accNumber)
-            {
-                toRemove = account;
-                break;
-            }
-        }
+        toRemove = accounts.stream()
+                 .filter(acc ->acc.getAccNumber() == accNumber)
+                 .findFirst()
+                 .orElse(null);
 
         if (toRemove != null)
         {
@@ -82,7 +77,7 @@ public class Bank {
             System.out.println("No accounts");
             return;
         }
-        for (BankAccount a: accounts) a.displayAccountInfo();
+        accounts.forEach(BankAccount::displayAccountInfo);
     }
 
     public  void saveToJson()

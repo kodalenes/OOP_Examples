@@ -35,7 +35,8 @@ public class InputUtils {
         }
     }
 
-    public static String readName(String message) {
+    public static String readName(String message)
+    {
         while (true) {
             System.out.print(message + ": ");
             String name = MainClass.input.nextLine().trim();
