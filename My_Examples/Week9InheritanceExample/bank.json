@@ -3,7 +3,7 @@
     "overdraftLimit": 0.0,
     "accNumber": 1001,
     "accHolder": "Mahmut",
-    "balance": 200.0,
+    "balance": 300.0,
     "accType": "CHECKING",
     "password": "123123",
     "passTrialCounter": 0,
@@ -45,6 +45,19 @@
         "balanceAfterTransaction": 200.0,
         "amount": 100.0,
         "note": "Gonderilen hesap:1004"
+      },
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-23 18:48:19",
+        "balanceAfterTransaction": 300.0,
+        "amount": 100.0
+      },
+      {
+        "transactionType": "TRANSFER_IN",
+        "transactionDate": "2025-11-23 18:48:19",
+        "balanceAfterTransaction": 1900.0,
+        "amount": 100.0,
+        "note": "Gelen hesap:1011"
       }
     ]
   },
@@ -110,7 +123,7 @@
     "withdrawalCount": 0,
     "accNumber": 1011,
     "accHolder": "Taylor",
-    "balance": 1000.0,
+    "balance": 1900.0,
     "accType": "SAVING",
     "password": "123123",
     "passTrialCounter": 0,
@@ -124,6 +137,19 @@
         "transactionDate": "2025-11-23 18:28:44",
         "balanceAfterTransaction": 1000.0,
         "amount": 1000.0
+      },
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-23 18:48:00",
+        "balanceAfterTransaction": 2000.0,
+        "amount": 1000.0
+      },
+      {
+        "transactionType": "TRANSFER_OUT",
+        "transactionDate": "2025-11-23 18:48:19",
+        "balanceAfterTransaction": 1900.0,
+        "amount": 100.0,
+        "note": "Gonderilen hesap:1001"
       }
     ]
   }

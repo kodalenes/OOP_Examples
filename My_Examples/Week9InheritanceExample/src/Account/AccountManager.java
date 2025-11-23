@@ -134,7 +134,9 @@ public class AccountManager {
             do {
                 newAccHolder = InputUtils.readName("Enter new account holder");
                 try {
+                    String oldName = account.getAccHolder();
                     account.setAccHolder(newAccHolder);
+                    Logger.log(String.format("UPDATE: Account %d holder name changed from '%s' to '%s'", accNumber, oldName, newAccHolder));
                     break;
                 } catch (InvalidNameException e) {
                     System.out.println(e.getMessage());
@@ -211,6 +213,7 @@ public class AccountManager {
                 account.setSuspendedUntilMillis(0);
                 account.setSuspended(false);
                 account.setPassTrialCounter(0);
+                Logger.log(String.format("LOGIN: Successful login for Account %d (%s)", account.getAccNumber(), account.getAccHolder()));
                 return true;
             }
 
@@ -222,6 +225,7 @@ public class AccountManager {
                 account.setSuspended(true);
                 account.setSuspendedUntilMillis(now + (5 * 60 * 1000)); // 5 minutes
                 System.out.println("Account suspended for 5 minutes due to repeated failed attempts.");
+                Logger.log(String.format("SECURITY: Account %d suspended for 5 minutes due to 3 failed login attempts", account.getAccNumber()));
                 return false;
             }
         }
@@ -237,6 +241,7 @@ public class AccountManager {
                 if (!PasswordCheck.isInvalidPassword(newPass))
                 {
                     account.setPassword(newPass);
+                    Logger.log(String.format("PASSWORD RESET: Password changed for Account %d", accNum));
                     isOver = true;
                 }
             }while(!isOver);

@@ -3,6 +3,7 @@ package main;
 import Account.AccountManager;
 import Bank.Bank;
 import Utils.InputUtils;
+import Utils.Logger;
 import Account.AdminManager;
 
 import java.util.Scanner;
@@ -18,6 +19,7 @@ public class MainClass {
 
     private static void MainMenu()
     {
+        Logger.log("SYSTEM: Banking System started");
         Bank.getInstance().loadAccNumber();
         Bank.getInstance().loadFromJson();
 
@@ -35,6 +37,7 @@ public class MainClass {
                     isOver = true;
                     Bank.getInstance().saveToJson();
                     Bank.getInstance().saveAccNumber();
+                    Logger.log("SYSTEM: Banking System shut down");
                 }
             }
         }while(!isOver);

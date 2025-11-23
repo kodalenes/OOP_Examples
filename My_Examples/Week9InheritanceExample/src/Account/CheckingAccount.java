@@ -1,5 +1,7 @@
 package Account;
 
+import Utils.Logger;
+
 public class CheckingAccount extends BankAccount{
 
     private double overdraftLimit;
@@ -25,6 +27,8 @@ public class CheckingAccount extends BankAccount{
             System.out.println("Withdraw successful with overdraft limit.");
             System.out.printf("%s Balance is %.2f%n" , getAccHolder() , getBalance());
             System.out.printf("%s Overdraft limit is %.2f%n" , getAccHolder() , overdraftLimit);
+            Logger.log(String.format("OVERDRAFT: Account %d used %.2f from overdraft limit. Remaining overdraft: %.2f",
+                    getAccNumber(), usedOverdraftLimit, overdraftLimit));
         }else
         {
             System.out.println("Insufficient balance and overdraft limit!");

@@ -1,5 +1,7 @@
 package Account;
 
+import Utils.Logger;
+
 public class SavingAccount extends BankAccount{
 
     private double interestRate = 0.05; //%5
@@ -14,9 +16,12 @@ public class SavingAccount extends BankAccount{
 
     public void addInterest()
     {
-        setBalance(getBalance() + (getBalance() * interestRate));
+        double interestAmount = getBalance() * interestRate;
+        setBalance(getBalance() + interestAmount);
         System.out.println("Interest added to the account");
         System.out.printf("%s Balance is %.2f %n" , getAccHolder() , getBalance());
+        Logger.log(String.format("INTEREST: %.2f interest added to Account %d. New Balance: %.2f",
+                interestAmount, getAccNumber(), getBalance()));
     }
 
     @Override
@@ -28,6 +33,7 @@ public class SavingAccount extends BankAccount{
             withdrawalCount++;
         } else {
             System.out.println("Monthly withdrawal limit exceeded!");
+            Logger.log(String.format("LIMIT: Account %d attempted withdrawal but exceeded monthly limit (3)", getAccNumber()));
         }
     }
 

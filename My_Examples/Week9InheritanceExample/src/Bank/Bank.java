@@ -2,6 +2,7 @@ package Bank;
 import Exceptions.AccountNotFoundException;
 import Utils.BankAccountAdapter;
 import Utils.LocalDateAdapter;
+import Utils.Logger;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -72,6 +73,7 @@ public class Bank {
         try (FileWriter writer = new FileWriter(BANK_ACCOUNT_FILE)) {
             gson.toJson(accounts, writer);
             System.out.println("Accounts saved to JSON!");
+            Logger.log(String.format("SYSTEM: %d accounts saved to JSON file", accounts.size()));
         } catch (Exception e) {
             System.out.println("Error saving JSON: " + e.getMessage());
         }
@@ -106,6 +108,7 @@ public class Bank {
                 }
                 accounts.addAll(loadedAccounts);
                 System.out.println("Accounts loaded from JSON!");
+                Logger.log(String.format("SYSTEM: %d accounts loaded from JSON file", loadedAccounts.size()));
 
                 int maxAccNumber = accounts.stream()
                         .mapToInt(BankAccount::getAccNumber)

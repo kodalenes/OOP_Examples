@@ -2,6 +2,7 @@ package Account;
 
 import Bank.Bank;
 import Utils.InputUtils;
+import Utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,10 +21,12 @@ public class AdminManager {
         if (!password.equals(ADMIN_PASSWORD) && !username.equals(ADMIN_USERNAME))
         {
             System.out.println("Invalid username or password !");
+            Logger.log("ADMIN: Failed admin login attempt");
             return false;
         }
 
         System.out.println("Admin login successful");
+        Logger.log("ADMIN: Successful admin login");
         return true;
     }
 
@@ -52,6 +55,7 @@ public class AdminManager {
                             isOver = true;
                             Bank.getInstance().saveToJson();
                             Bank.getInstance().saveAccNumber();
+                            Logger.log("ADMIN: Admin logged out");
                 }
                 default -> System.out.println("Invalid choice.Try again!");
             }

@@ -6,3 +6,16 @@
 [2025-11-22 17:49:56] NEW ACCOUNT: Created new Checking account with ID: 1010
 [2025-11-22 17:50:09] NEW ACCOUNT: Created new Saving account with ID: 1011
 [2025-11-23 18:28:44] DEPOSIT: Account 1011 received 1000,00. New Balance: 1000,00
+[2025-11-23 18:46:29] SYSTEM: Banking System started
+[2025-11-23 18:46:29] SYSTEM: 5 accounts loaded from JSON file
+[2025-11-23 18:47:16] ADMIN: Successful admin login
+[2025-11-23 18:47:45] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 18:47:45] ADMIN: Admin logged out
+[2025-11-23 18:47:58] LOGIN: Successful login for Account 1011 (Taylor)
+[2025-11-23 18:48:00] DEPOSIT: Account 1011 received 1000,00. New Balance: 2000,00
+[2025-11-23 18:48:10] LOGIN: Successful login for Account 1011 (Taylor)
+[2025-11-23 18:48:19] DEPOSIT: Account 1001 received 100,00. New Balance: 300,00
+[2025-11-23 18:48:19] TRANSFER: 100,00 transferred from Account 1011 to Account 1001.
+[2025-11-23 18:48:34] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 18:48:36] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 18:48:36] SYSTEM: Banking System shut down
