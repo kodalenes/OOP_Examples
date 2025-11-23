@@ -59,9 +59,9 @@ public abstract class BankAccount {
 
         balance += amount;
         System.out.println("Successfully deposit " + amount);
-        System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
+        System.out.printf("%s Balance is %.2f TL %n" , accHolder , getBalance());
         history.add(new Transaction(TransactionType.DEPOSIT,amount,getBalance(),null));
-        Logger.log(String.format("DEPOSIT: Account %d received %.2f. New Balance: %.2f", accNumber, amount, balance));
+        Logger.log(String.format("DEPOSIT: Account %d received %.2f TL. New Balance: %.2f TL", accNumber, amount, balance));
     }
 
     public void withdraw(double amount)
@@ -91,10 +91,10 @@ public abstract class BankAccount {
             lastWithdrawalDate = today;
             double currentRemainingLimit = DAILY_WITHDRAWAL_LIMIT - amountWithdrawnToday;
             System.out.println("Successfully withdraw " + amount);
-            System.out.printf("%s Balance is %.2f %n" , accHolder , getBalance());
-            System.out.printf("%s remaining daily withdraw limit is: %.2f%n" , accHolder ,currentRemainingLimit);
+            System.out.printf("%s Balance is %.2f TL %n" , accHolder , getBalance());
+            System.out.printf("%s remaining daily withdraw limit is: %.2f TL%n" , accHolder ,currentRemainingLimit);
             history.add(new Transaction(TransactionType.WITHDRAW,amount,getBalance(),null));
-            Logger.log(String.format("WITHDRAW: Account %d withdrew %.2f. Remaining Balance: %.2f", accNumber, amount, balance));
+            Logger.log(String.format("WITHDRAW: Account %d withdrew %.2f TL. Remaining Balance: %.2f TL", accNumber, amount, balance));
         }
     }
 
@@ -146,7 +146,7 @@ public abstract class BankAccount {
 
     @Override
     public String toString() {
-        return String.format("Account number: %d ,Name: %s ,Balance: %.2f " ,getAccNumber(), getAccHolder() , getBalance());
+        return String.format("Account number: %d ,Name: %s ,Balance: %.2f TL" ,getAccNumber(), getAccHolder() , getBalance());
     }
 
     //Setter&Getter

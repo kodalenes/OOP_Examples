@@ -52,6 +52,7 @@ public class MainClass {
             System.out.println("3- Transfer");
             System.out.println("4- Display Transaction");
             System.out.println("5- Update Account Info");
+            System.out.println("6- Show Balance Foreign Currency");
             System.out.println("0- Quit");
             int choice = InputUtils.readInt("Your choice");
 
@@ -61,6 +62,7 @@ public class MainClass {
                 case 3-> AccountManager.makeTransfer();
                 case 4-> AccountManager.displayTransactionHistoryByNumber();
                 case 5-> AccountManager.updateAccount();
+                case 6-> AccountManager.showBalanceInForeignCurrency();
                 case 0->
                     {
                         isOver = true;

@@ -123,7 +123,7 @@
     "withdrawalCount": 0,
     "accNumber": 1011,
     "accHolder": "Taylor",
-    "balance": 1900.0,
+    "balance": 11900.0,
     "accType": "SAVING",
     "password": "123123",
     "passTrialCounter": 0,
@@ -150,6 +150,12 @@
         "balanceAfterTransaction": 1900.0,
         "amount": 100.0,
         "note": "Gonderilen hesap:1001"
+      },
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-23 19:37:28",
+        "balanceAfterTransaction": 11900.0,
+        "amount": 10000.0
       }
     ]
   }

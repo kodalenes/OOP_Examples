@@ -1,6 +1,8 @@
 package Account;
 import javax.naming.InvalidNameException;
 
+import Currency.Currency;
+import Currency.CurrencyService;
 import Exceptions.AccountNotFoundException;
 import Utils.PasswordCheck;
 import Utils.InputUtils;
@@ -174,6 +176,43 @@ public class AccountManager {
 
     private record BaseAccountInfo(String accHolder, String password)
     {
+    }
+
+    public static void showBalanceInForeignCurrency()
+    {
+        int accNumber = InputUtils.readInt("Enter account number?");
+
+        try {
+            BankAccount account = Bank.getInstance().getAccByNumber(accNumber);
+
+            if (!AccountManager.login(account)) return;
+
+            String inputCode = InputUtils.readString("Enter currency code? [EUR , USD etc.]");
+
+            Currency targetCurrency = Currency.fromString(inputCode);
+
+            if (targetCurrency == null)
+            {
+                System.out.println("Invalid currency code!");
+                return;
+            }
+
+            System.out.println("Fetching live exchange rates...");
+            double rate = CurrencyService.getExchangeRate(targetCurrency);
+
+            if (rate == 0.0)
+                System.out.println("Failed to fetch rates or service unavailable.");
+
+            double convertedBalance = rate * account.getBalance();
+            System.out.println("--- CURRENCY BALANCE ---");
+            System.out.printf("Current Balance (TRY): %.2f TL%n", account.getBalance());
+            System.out.printf("Exchange Rate (TRY -> %s): %.4f%n", targetCurrency.getCode(), rate);
+            System.out.printf("Equivalent Balance: %.2f %s%n", convertedBalance, targetCurrency.getCode());
+            Logger.log(String.format("INFO: Account %d checked balance in %s", accNumber, targetCurrency.getCode()));
+
+        } catch (AccountNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static boolean login(BankAccount account)

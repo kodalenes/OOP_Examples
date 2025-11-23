@@ -25,8 +25,8 @@ public class CheckingAccount extends BankAccount{
             overdraftLimit -= usedOverdraftLimit;
             setBalance(0);
             System.out.println("Withdraw successful with overdraft limit.");
-            System.out.printf("%s Balance is %.2f%n" , getAccHolder() , getBalance());
-            System.out.printf("%s Overdraft limit is %.2f%n" , getAccHolder() , overdraftLimit);
+            System.out.printf("%s Balance is %.2f TL%n" , getAccHolder() , getBalance());
+            System.out.printf("%s Overdraft limit is %.2f TL%n" , getAccHolder() , overdraftLimit);
             Logger.log(String.format("OVERDRAFT: Account %d used %.2f from overdraft limit. Remaining overdraft: %.2f",
                     getAccNumber(), usedOverdraftLimit, overdraftLimit));
         }else
@@ -43,7 +43,7 @@ public class CheckingAccount extends BankAccount{
     @Override
     public void displayAccountInfo() {
         System.out.printf(
-                "Account Number: %s ,Account Holder: %s , Balance: %.2f , Type: %s, OverdraftLimit : %.2f , Available Balance: %.2f%n" ,
+                "Account Number: %s ,Account Holder: %s , Balance: %.2f TL , Type: %s, OverdraftLimit : %.2f TL , Available Balance: %.2f TL%n" ,
                                     getAccNumber(),
                                     getAccHolder(),
                                     getBalance(),
