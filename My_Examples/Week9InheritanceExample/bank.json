@@ -3,7 +3,7 @@
     "overdraftLimit": 0.0,
     "accNumber": 1001,
     "accHolder": "Mahmut",
-    "balance": 300.0,
+    "balance": 5300.0,
     "accType": "CHECKING",
     "password": "123123",
     "passTrialCounter": 0,
@@ -58,6 +58,12 @@
         "balanceAfterTransaction": 1900.0,
         "amount": 100.0,
         "note": "Gelen hesap:1011"
+      },
+      {
+        "transactionType": "DEPOSIT",
+        "transactionDate": "2025-11-23 23:05:02",
+        "balanceAfterTransaction": 5300.0,
+        "amount": 5000.0
       }
     ]
   },
@@ -120,17 +126,19 @@
   },
   {
     "interestRate": 0.05,
-    "withdrawalCount": 0,
+    "withdrawalCount": 2,
     "accNumber": 1011,
     "accHolder": "Taylor",
-    "balance": 11900.0,
+    "balance": 8800.0,
     "accType": "SAVING",
     "password": "123123",
     "passTrialCounter": 0,
     "isSuspended": false,
     "suspendedUntilMillis": 0,
     "DAILY_WITHDRAWAL_LIMIT": 5000.0,
-    "amountWithdrawnToday": 0.0,
+    "amountWithdrawnToday": 3100.0,
+    "today": "2025-11-23",
+    "lastWithdrawalDate": "2025-11-23",
     "history": [
       {
         "transactionType": "DEPOSIT",
@@ -156,6 +164,18 @@
         "transactionDate": "2025-11-23 19:37:28",
         "balanceAfterTransaction": 11900.0,
         "amount": 10000.0
+      },
+      {
+        "transactionType": "WITHDRAW",
+        "transactionDate": "2025-11-23 22:48:22",
+        "balanceAfterTransaction": 9900.0,
+        "amount": 2000.0
+      },
+      {
+        "transactionType": "WITHDRAW",
+        "transactionDate": "2025-11-23 22:55:27",
+        "balanceAfterTransaction": 8800.0,
+        "amount": 1100.0
       }
     ]
   }

@@ -1,4 +1,5 @@
 package Account;
+import Notifications.SmsWebhookService;
 import Transaction.Transaction;
 import Transaction.TransactionType;
 import Utils.Logger;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BankAccount {
+
+    private static final SmsWebhookService smsService = new SmsWebhookService();
+
     //Account Info
     private int accNumber;
     private String accHolder;
@@ -36,7 +40,6 @@ public abstract class BankAccount {
     private LocalDate lastWithdrawalDate;
 
     private List<Transaction> history; // initialize in constructor
-
     //Constructor
     BankAccount(String accHolder, String password)
     {
@@ -62,6 +65,10 @@ public abstract class BankAccount {
         System.out.printf("%s Balance is %.2f TL %n" , accHolder , getBalance());
         history.add(new Transaction(TransactionType.DEPOSIT,amount,getBalance(),null));
         Logger.log(String.format("DEPOSIT: Account %d received %.2f TL. New Balance: %.2f TL", accNumber, amount, balance));
+        if (amount >= 5000) {
+            String smsMessage = String.format("INFO: %.2f TL has been deposited to your account. New balance: %.2f TL", amount, balance);
+            smsService.sendNotificationWithStatus(smsMessage, "+905551234567", "INFO");
+        }
     }
 
     public void withdraw(double amount)
@@ -95,6 +102,10 @@ public abstract class BankAccount {
             System.out.printf("%s remaining daily withdraw limit is: %.2f TL%n" , accHolder ,currentRemainingLimit);
             history.add(new Transaction(TransactionType.WITHDRAW,amount,getBalance(),null));
             Logger.log(String.format("WITHDRAW: Account %d withdrew %.2f TL. Remaining Balance: %.2f TL", accNumber, amount, balance));
+            if (amount >= 5000) {
+                String smsMessage = String.format("INFO: %.2f TL has been withdrawn from your account. Remaining balance: %.2f TL", amount, balance);
+                smsService.sendNotificationWithStatus(smsMessage, "+905551234567", "INFO");
+            }
         }
     }
 
@@ -127,6 +138,11 @@ public abstract class BankAccount {
         this.history.add(new Transaction(TransactionType.TRANSFER_OUT,amount,getBalance(),"Gonderilen hesap:" + to.accNumber));
         to.history.add(new Transaction(TransactionType.TRANSFER_IN,amount,getBalance(),"Gelen hesap:" + this.accNumber));
         Logger.log(String.format("TRANSFER: %.2f transferred from Account %d to Account %d.", amount, this.accNumber, to.getAccNumber()));
+        if (amount >= 5000) {
+            String smsMessage = String.format("INFO: %.2f TL has been transferred to Account %d. Remaining balance: %.2f TL",
+                amount, to.getAccNumber(), this.balance);
+            smsService.sendNotificationWithStatus(smsMessage, "+905551234567", "INFO");
+        }
     }
 
     public abstract void displayAccountInfo();

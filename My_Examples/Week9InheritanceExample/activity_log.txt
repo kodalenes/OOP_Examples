@@ -30,3 +30,28 @@
 [2025-11-23 19:37:49] SYSTEM: 5 accounts saved to JSON file
 [2025-11-23 19:37:51] SYSTEM: 5 accounts saved to JSON file
 [2025-11-23 19:37:51] SYSTEM: Banking System shut down
+[2025-11-23 22:48:09] SYSTEM: Banking System started
+[2025-11-23 22:48:09] SYSTEM: 5 accounts loaded from JSON file
+[2025-11-23 22:48:10] SYSTEM: Banking System started
+[2025-11-23 22:48:11] SYSTEM: 5 accounts loaded from JSON file
+[2025-11-23 22:48:18] LOGIN: Successful login for Account 1011 (Taylor)
+[2025-11-23 22:48:22] WITHDRAW: Account 1011 withdrew 2000,00 TL. Remaining Balance: 9900,00 TL
+[2025-11-23 22:50:34] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 22:50:35] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 22:50:35] SYSTEM: Banking System shut down
+[2025-11-23 22:55:16] SYSTEM: Banking System started
+[2025-11-23 22:55:16] SYSTEM: 5 accounts loaded from JSON file
+[2025-11-23 22:55:23] LOGIN: Successful login for Account 1011 (Taylor)
+[2025-11-23 22:55:27] WITHDRAW: Account 1011 withdrew 1100,00 TL. Remaining Balance: 8800,00 TL
+[2025-11-23 22:56:52] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 22:56:53] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 22:56:53] SYSTEM: Banking System shut down
+[2025-11-23 23:04:49] SYSTEM: Banking System started
+[2025-11-23 23:04:49] SYSTEM: 5 accounts loaded from JSON file
+[2025-11-23 23:04:56] LOGIN: Successful login for Account 1001 (Mahmut)
+[2025-11-23 23:05:02] DEPOSIT: Account 1001 received 5000,00 TL. New Balance: 5300,00 TL
+[2025-11-23 23:05:18] LOGIN: Successful login for Account 1011 (Taylor)
+[2025-11-23 23:05:22] INFO: Account 1011 checked balance in USD
+[2025-11-23 23:05:31] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 23:05:31] SYSTEM: 5 accounts saved to JSON file
+[2025-11-23 23:05:31] SYSTEM: Banking System shut down

@@ -4,12 +4,15 @@ import javax.naming.InvalidNameException;
 import Currency.Currency;
 import Currency.CurrencyService;
 import Exceptions.AccountNotFoundException;
+import Notifications.SmsWebhookService;
 import Utils.PasswordCheck;
 import Utils.InputUtils;
 import Bank.Bank;
 import Utils.Logger;
 
 public class AccountManager {
+
+    private static final SmsWebhookService smsService = new SmsWebhookService();
 
     public static void createAccount()
     {
@@ -265,6 +268,8 @@ public class AccountManager {
                 account.setSuspendedUntilMillis(now + (5 * 60 * 1000)); // 5 minutes
                 System.out.println("Account suspended for 5 minutes due to repeated failed attempts.");
                 Logger.log(String.format("SECURITY: Account %d suspended for 5 minutes due to 3 failed login attempts", account.getAccNumber()));
+                String smsMessage = String.format("WARNING: Your account (%d) has been suspended for 5 minutes due to 3 failed login attempts.", account.getAccNumber());
+                smsService.sendNotificationWithStatus(smsMessage, "+905551234567", "URGENT");
                 return false;
             }
         }
