@@ -9,7 +9,7 @@ import Utils.Logger;
 
 public class AccountManager {
 
-    public static void CreateAccount(PasswordCheck passwordCheck)
+    public static void createAccount()
     {
         boolean isOver = false;
         do {
@@ -49,7 +49,7 @@ public class AccountManager {
         Logger.log(String.format("NEW ACCOUNT: Created new Checking account with ID: %d", c1.getAccNumber()));
     }
 
-    public static void DeleteAccount()
+    public static void deleteAccount()
     {
         int accNum = 0;
         try {
@@ -57,8 +57,8 @@ public class AccountManager {
             Bank.getInstance().removeByNumber(accNum);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            Logger.log(String.format("DELETE ACCOUNT: Account %d has been removed from the system.", accNum));
         }
+        Logger.log(String.format("DELETE ACCOUNT: Account %d has been removed from the system.", accNum));
     }
 
     public static void makeDeposit()
@@ -227,4 +227,21 @@ public class AccountManager {
         }
     }
 
+    public static void resetPassword() {
+        try {
+            int accNum = InputUtils.readInt("Enter account number?");
+            BankAccount account = Bank.getInstance().getAccByNumber(accNum);
+            boolean isOver = false;
+            do {
+                String newPass = InputUtils.readString("Enter new password");
+                if (!PasswordCheck.isInvalidPassword(newPass))
+                {
+                    account.setPassword(newPass);
+                    isOver = true;
+                }
+            }while(!isOver);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

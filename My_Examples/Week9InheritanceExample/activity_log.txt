@@ -5,3 +5,4 @@
 [2025-11-22 17:43:20] NEW ACCOUNT: Created new Checking account with ID: 1010
 [2025-11-22 17:49:56] NEW ACCOUNT: Created new Checking account with ID: 1010
 [2025-11-22 17:50:09] NEW ACCOUNT: Created new Saving account with ID: 1011
+[2025-11-23 18:28:44] DEPOSIT: Account 1011 received 1000,00. New Balance: 1000,00

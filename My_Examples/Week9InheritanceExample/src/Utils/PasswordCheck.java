@@ -2,7 +2,7 @@ package Utils;
 
 public class PasswordCheck {
 
-    String password;
+    private String password;
     private static final int PASSWORD_LENGTH = 6;
 
     public static boolean isInvalidPassword(String password)

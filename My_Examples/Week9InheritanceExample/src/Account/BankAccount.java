@@ -144,6 +144,11 @@ public abstract class BankAccount {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.format("Account number: %d ,Name: %s ,Balance: %.2f " ,getAccNumber(), getAccHolder() , getBalance());
+    }
+
     //Setter&Getter
 
     public static void setAccNumberMaker(int accNumberMaker) {
@@ -182,7 +187,7 @@ public abstract class BankAccount {
         return accNumber;
     }
 
-    protected double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
