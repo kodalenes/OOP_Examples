@@ -55,3 +55,7 @@
 [2025-11-23 23:05:31] SYSTEM: 5 accounts saved to JSON file
 [2025-11-23 23:05:31] SYSTEM: 5 accounts saved to JSON file
 [2025-11-23 23:05:31] SYSTEM: Banking System shut down
+[2025-12-04 22:49:17] SYSTEM: Banking System started
+[2025-12-04 22:49:17] SYSTEM: 5 accounts loaded from JSON file
+[2025-12-04 22:49:33] LOGIN: Successful login for Account 1001 (Mahmut)
+[2025-12-04 22:49:35] DEPOSIT: Account 1001 received 100,00 TL. New Balance: 5400,00 TL

@@ -1,6 +1,9 @@
+package StoreManager;
+
+import Exceptions.ProductCantFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Store {
     List<Product> products = new ArrayList<>();
@@ -18,11 +21,23 @@ public class Store {
             System.out.println(targetName + " is removed from store.");
     }
 
+    public Product findProductByName(String targetName) throws ProductCantFoundException {
+        for (Product p : products)
+        {
+            if (p.name().equalsIgnoreCase(targetName))
+            {
+                return p;
+            }
+        }
+
+        throw new ProductCantFoundException("Cannot Found StoreManager.Product!");
+    }
+
     public void listAllProducts()
     {
         for (Product p : products)
             if (p != null)
-                System.out.println(p);
+                System.out.printf("%s%n", p);
     }
 
 }
