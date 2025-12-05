@@ -5,6 +5,9 @@ import Exceptions.ProductCantFoundException;
 import Payment.CashPayment;
 import Payment.CreditCardPayment;
 import Payment.PaymentBehavior;
+import Products.Clothes;
+import Products.Electronics;
+import Products.Product;
 import StoreManager.*;
 import Utils.InputUtils;
 
@@ -53,11 +56,12 @@ public class MainClass {
         store.listAllProducts();
 
         String targetProductName = InputUtils.readString("Enter product name that you want to add to cart?");
+        int amount = InputUtils.readInt("How many " + targetProductName + " do you want to buy?");
 
         Product product = null;
         try {
             product = store.findProductByName(targetProductName);
-            cart.addToCart(product);
+            cart.addToCart(product , amount);
         } catch (ProductCantFoundException e)
         {
             System.out.println(e.getMessage());

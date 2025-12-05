@@ -1,6 +1,7 @@
 package StoreManager;
 
 import Exceptions.ProductCantFoundException;
+import Products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Store {
             }
         }
 
-        throw new ProductCantFoundException("Cannot Found StoreManager.Product!");
+        throw new ProductCantFoundException("Product cannot found!");
     }
 
     public void listAllProducts()

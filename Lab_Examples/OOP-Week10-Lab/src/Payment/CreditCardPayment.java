@@ -5,7 +5,7 @@ import Utils.InputUtils;
 public class CreditCardPayment implements PaymentBehavior{
 
     @Override
-    public void processPayment(double totalAmount)
+    public boolean processPayment(double totalAmount)
     {
         InputUtils.readString("Enter credit card number?");
         InputUtils.readString("Enter CVC code?");
@@ -17,6 +17,7 @@ public class CreditCardPayment implements PaymentBehavior{
         MainClass.waitForSeconds(1);
 
         System.out.println("Process successful " + totalAmount + " withdrawn from your account!");
+        return true;
     }
 
 }

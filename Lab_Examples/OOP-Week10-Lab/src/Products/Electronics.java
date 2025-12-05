@@ -1,4 +1,4 @@
-package StoreManager;
+package Products;
 
 public class Electronics extends Product{
 
@@ -12,7 +12,7 @@ public class Electronics extends Product{
 
     @Override
     public String toString() {
-        return super.toString() + "Warranty " + warrantyPeriod + " months";
+        return super.toString() + "Warranty " + warrantyPeriod + " months ";
     }
 
     @Override

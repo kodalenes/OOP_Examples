@@ -1,19 +1,23 @@
 package StoreManager;
 
 import Exceptions.EmptyCartException;
+import Exceptions.ProductCantFoundException;
 import Payment.PaymentBehavior;
+import Products.Product;
 import Utils.InputUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class ShoppingCart{
 
-    List<Product> cart = new ArrayList<>();
+    HashMap<Product , Integer> cart = new HashMap<>();
 
-    public void addToCart(Product product)
+    public void addToCart(Product product, int amount)
     {
-        cart.add(product);
+        cart.put(product ,cart.getOrDefault(product ,0) + amount);
+        System.out.println(product.getName() + " added to cart.Total amount:" + cart.get(product));
     }
 
     public void removeFromCart()
@@ -26,10 +30,41 @@ public class ShoppingCart{
 
         listCart();
         String targetName = InputUtils.readString("Enter name that you want to remove from cart?");
-        boolean isRemoved = cart.removeIf(product -> product.getName().equalsIgnoreCase(targetName));
-        if (isRemoved)
-            System.out.println(targetName + " is removed from cart");
+        Product targetProduct = null;
+        try {
+            targetProduct = findProductByName(targetName);
+        } catch (ProductCantFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (targetProduct != null) {
+            int removeAmount = InputUtils.readInt("How many " + targetName + " do you want to remove?");
+
+            if (cart.get(targetProduct) > removeAmount)//urun adedi silinecekten fazlaysa adedi azalt
+            {
+                int amount = cart.get(targetProduct);
+                amount = (cart.get(targetProduct) - removeAmount);
+                cart.put(targetProduct , amount);
+            } else if (cart.get(targetProduct) == removeAmount) {//urun adedi silinecekle ayniysa remove
+                cart.remove(targetProduct);
+            } else
+                System.out.println("Invalid expression!");
+            System.out.println(targetName + " is removed from cart.");
+        }
     }
+
+    public Product findProductByName(String targetName) throws ProductCantFoundException {
+        for (Product p : cart.keySet())
+        {
+            if (p.getName().equalsIgnoreCase(targetName))
+            {
+                return p;
+            }
+        }
+
+        throw new ProductCantFoundException("Product cannot found!");
+    }
+
 
     public void listCart()
     {
@@ -39,21 +74,25 @@ public class ShoppingCart{
             return;
         }
 
-        for (Product p : cart)
+        for (Product p : cart.keySet())
         {
             if (p != null) {
-                System.out.println(p);
+                System.out.println(p + "Amount:" + cart.getOrDefault(p ,0));//urun bilgisi + adedi
             }
         }
     }
 
     private double calculateTotal()
     {
-        return cart.stream().mapToDouble(Product::getPrice).sum();
+        //Mapteki tum urunlerin fiyatiyla sayisini carparak hepsioni toplar ve topla fiyati dondurur
+        return cart.entrySet().stream()
+                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
     }
 
     public void payment(PaymentBehavior paymentMethod) throws EmptyCartException
     {
+        boolean isSuccessful;
         double total = calculateTotal();
 
         if (total <= 0)
@@ -61,7 +100,7 @@ public class ShoppingCart{
 
         //Calculate total discount
         double totalDiscount = 0.0;
-        for (Product p : cart)
+        for (Product p : cart.keySet())
         {
             totalDiscount += p.getDiscountAmount();
         }
@@ -77,8 +116,10 @@ public class ShoppingCart{
             System.out.println("----------");
         }
 
-        paymentMethod.processPayment(finalAmount);
-
-        cart.clear();
+        isSuccessful = paymentMethod.processPayment(finalAmount);
+        if (isSuccessful)
+        {
+            cart.clear();
+        }
     }
 }

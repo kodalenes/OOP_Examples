@@ -1,6 +1,8 @@
-package StoreManager;
+package Products;
 
-public class Product implements DiscountBehavior{
+import StoreManager.DiscountBehavior;
+
+public class Product implements DiscountBehavior {
 
     private String name;
     private double price;

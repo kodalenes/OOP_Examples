@@ -1,4 +1,4 @@
-package StoreManager;
+package Products;
 
 public class Clothes extends Product{
 
@@ -11,7 +11,7 @@ public class Clothes extends Product{
 
     @Override
     public String toString() {
-        return super.toString() + "Size " + size;
+        return super.toString() + "Size " + size + " ";
     }
 
     @Override

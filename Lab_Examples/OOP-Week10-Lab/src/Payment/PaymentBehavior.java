@@ -2,5 +2,5 @@ package Payment;
 
 public interface PaymentBehavior {
 
-    public void processPayment(double totalAmount);
+    public boolean processPayment(double totalAmount);
 }
