@@ -5,9 +5,7 @@ import Exceptions.ProductCantFoundException;
 import Payment.CashPayment;
 import Payment.CreditCardPayment;
 import Payment.PaymentBehavior;
-import StoreManager.Product;
-import StoreManager.ShoppingCart;
-import StoreManager.Store;
+import StoreManager.*;
 import Utils.InputUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -18,10 +16,13 @@ public class MainClass {
         Store store = new Store();
         ShoppingCart cart = new ShoppingCart();
 
-        store.addProductToStore("Laptop" , 5000);
-        store.addProductToStore("Mouse" , 600);
-        store.addProductToStore("Monitor" , 1000);
-        store.addProductToStore("Keyboard" , 750);
+        store.addProductToStore(new Electronics("Laptop" , 5000 , 12));
+        store.addProductToStore(new Electronics("Mouse" , 600 , 12));
+        store.addProductToStore(new Electronics("Monitor" , 1000 , 24));
+        store.addProductToStore(new Electronics("Keyboard" , 750 , 24));
+        store.addProductToStore(new Clothes("T-Shirt" ,250 , 2));
+        store.addProductToStore(new Clothes("Tie" ,100 , 1));
+        store.addProductToStore(new Clothes("Trousers" ,300 , 3));
 
         boolean isOver = false;
         do {

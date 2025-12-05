@@ -26,7 +26,7 @@ public class ShoppingCart{
 
         listCart();
         String targetName = InputUtils.readString("Enter name that you want to remove from cart?");
-        boolean isRemoved = cart.removeIf(product -> product.name().equalsIgnoreCase(targetName));
+        boolean isRemoved = cart.removeIf(product -> product.getName().equalsIgnoreCase(targetName));
         if (isRemoved)
             System.out.println(targetName + " is removed from cart");
     }
@@ -49,7 +49,7 @@ public class ShoppingCart{
 
     private double calculateTotal()
     {
-        return cart.stream().mapToDouble(Product::price).sum();
+        return cart.stream().mapToDouble(Product::getPrice).sum();
     }
 
     public void payment(PaymentBehavior paymentMethod) throws EmptyCartException
@@ -59,7 +59,25 @@ public class ShoppingCart{
         if (total <= 0)
             throw new EmptyCartException("Empty cart.Add product to cart!");
 
-        paymentMethod.processPayment(total);
+        //Calculate total discount
+        double totalDiscount = 0.0;
+        for (Product p : cart)
+        {
+            totalDiscount += p.getDiscountAmount();
+        }
+
+        double finalAmount = total - totalDiscount;
+
+        if (totalDiscount > 0)
+        {
+            System.out.println("----------");
+            System.out.printf("Total: %.2f TL%n" , total);
+            System.out.printf("Discount Amount: %.2f TL%n" , totalDiscount);
+            System.out.printf("Discounted Total: %.2f TL%n" , finalAmount);
+            System.out.println("----------");
+        }
+
+        paymentMethod.processPayment(finalAmount);
 
         cart.clear();
     }

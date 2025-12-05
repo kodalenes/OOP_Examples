@@ -8,14 +8,14 @@ import java.util.List;
 public class Store {
     List<Product> products = new ArrayList<>();
 
-    public void addProductToStore(String name , double price)
+    public void addProductToStore(Product product)
     {
-        products.add(new Product(name ,price));
+        products.add(product);
     }
 
     public void removeProductFromStore(String targetName)
     {
-        boolean isRemoved = products.removeIf(product -> product.name().equalsIgnoreCase(targetName));
+        boolean isRemoved = products.removeIf(product -> product.getName().equalsIgnoreCase(targetName));
 
         if (isRemoved)
             System.out.println(targetName + " is removed from store.");
@@ -24,7 +24,7 @@ public class Store {
     public Product findProductByName(String targetName) throws ProductCantFoundException {
         for (Product p : products)
         {
-            if (p.name().equalsIgnoreCase(targetName))
+            if (p.getName().equalsIgnoreCase(targetName))
             {
                 return p;
             }
@@ -39,5 +39,4 @@ public class Store {
             if (p != null)
                 System.out.printf("%s%n", p);
     }
-
 }
