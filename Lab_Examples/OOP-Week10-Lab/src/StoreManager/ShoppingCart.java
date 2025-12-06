@@ -1,6 +1,7 @@
 package StoreManager;
 
 import Exceptions.EmptyCartException;
+import Exceptions.InsufficientStockException;
 import Exceptions.ProductCantFoundException;
 import Payment.PaymentBehavior;
 import Products.Product;
@@ -9,13 +10,16 @@ import Utils.InputUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class ShoppingCart{
 
     HashMap<Product , Integer> cart = new HashMap<>();
 
     public void addToCart(Product product, int amount)
     {
+        if (product.getStockAmount() - amount < 0)
+            throw new InsufficientStockException
+                    ("Insufficient stock! " + product.getName() + " remaining:" + product.getStockAmount());
+        product.setStockAmount(product.getStockAmount() - amount);//updates stock amount
         cart.put(product ,cart.getOrDefault(product ,0) + amount);
         System.out.println(product.getName() + " added to cart.Total amount:" + cart.get(product));
     }
@@ -29,6 +33,7 @@ public class ShoppingCart{
         }
 
         listCart();
+
         String targetName = InputUtils.readString("Enter name that you want to remove from cart?");
         Product targetProduct = null;
         try {
@@ -45,8 +50,10 @@ public class ShoppingCart{
                 int amount = cart.get(targetProduct);
                 amount = (cart.get(targetProduct) - removeAmount);
                 cart.put(targetProduct , amount);
+                targetProduct.setStockAmount(targetProduct.getStockAmount() + removeAmount);
             } else if (cart.get(targetProduct) == removeAmount) {//urun adedi silinecekle ayniysa remove
                 cart.remove(targetProduct);
+                targetProduct.setStockAmount(targetProduct.getStockAmount() + removeAmount);
             } else
                 System.out.println("Invalid expression!");
             System.out.println(targetName + " is removed from cart.");
@@ -65,7 +72,6 @@ public class ShoppingCart{
         throw new ProductCantFoundException("Product cannot found!");
     }
 
-
     public void listCart()
     {
         if (cart.isEmpty())
@@ -74,17 +80,16 @@ public class ShoppingCart{
             return;
         }
 
-        for (Product p : cart.keySet())
+        for (Map.Entry<Product,Integer> entry : cart.entrySet())
         {
-            if (p != null) {
-                System.out.println(p + "Amount:" + cart.getOrDefault(p ,0));//urun bilgisi + adedi
+            if (entry != null) {
+                System.out.println(entry + "Amount:" + cart.getOrDefault(entry.getKey() ,0));//urun bilgisi + adedi
             }
         }
     }
 
     private double calculateTotal()
     {
-        //Mapteki tum urunlerin fiyatiyla sayisini carparak hepsioni toplar ve topla fiyati dondurur
         return cart.entrySet().stream()
                 .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
                 .sum();
@@ -100,9 +105,9 @@ public class ShoppingCart{
 
         //Calculate total discount
         double totalDiscount = 0.0;
-        for (Product p : cart.keySet())
+        for (Map.Entry<Product,Integer> entry : cart.entrySet())
         {
-            totalDiscount += p.getDiscountAmount();
+            totalDiscount += entry.getKey().getDiscountAmount() * entry.getValue();
         }
 
         double finalAmount = total - totalDiscount;

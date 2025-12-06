@@ -14,7 +14,8 @@ public class Store {
     {
         String name = InputUtils.readString("Enter product name?");
         double price = InputUtils.readDouble("Enter product price?");
-        Product product = new Product(name , price);
+        int stockAmount = InputUtils.readInt("Enter stock amount");
+        Product product = new Product(name ,price ,stockAmount);
         products.add(product);
     }
 
@@ -43,6 +44,6 @@ public class Store {
     {
         for (Product p : products)
             if (p != null)
-                System.out.printf("%s%n", p);
+                System.out.printf("%s Stock:%d %n", p, p.getStockAmount());
     }
 }

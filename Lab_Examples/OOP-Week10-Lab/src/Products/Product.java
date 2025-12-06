@@ -6,11 +6,13 @@ public class Product implements DiscountBehavior {
 
     private String name;
     private double price;
+    private int stockAmount;
 
-    public Product(String name , double price)
+    public Product(String name , double price , int stockAmount)
     {
         this.name = name ;
         this.price = price;
+        this.stockAmount = stockAmount;
     }
 
     public String getName() {
@@ -27,6 +29,14 @@ public class Product implements DiscountBehavior {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getStockAmount() {
+        return stockAmount;
+    }
+
+    public void setStockAmount(int stockAmount) {
+        this.stockAmount = stockAmount;
     }
 
     @Override

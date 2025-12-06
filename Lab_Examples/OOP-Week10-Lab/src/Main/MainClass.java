@@ -1,6 +1,7 @@
 package Main;
 
 import Exceptions.EmptyCartException;
+import Exceptions.InsufficientStockException;
 import Exceptions.ProductCantFoundException;
 import Payment.CashPayment;
 import Payment.CreditCardPayment;
@@ -17,7 +18,7 @@ public class MainClass {
 
     private static final int adminPass = 1234;
 
-    static void main() {
+    public static void main(String[] args) {
         Store store = new Store();
         ShoppingCart cart = new ShoppingCart();
         userMenu(store ,cart);
@@ -27,27 +28,31 @@ public class MainClass {
 
         boolean isOver = false;
         do {
-            System.out.println("----WELCOME STORE----");
-            System.out.println("1-Products");
-            System.out.println("2-List cart");
-            System.out.println("3-Remove from cart");
-            System.out.println("4-Pay");
-            System.out.println("9-Admin Panel");
-            System.out.println("0-Exit");
+            try {
+                System.out.println("----WELCOME STORE----");
+                System.out.println("1-Products");
+                System.out.println("2-List cart");
+                System.out.println("3-Remove from cart");
+                System.out.println("4-Pay");
+                System.out.println("9-Admin Panel");
+                System.out.println("0-Exit");
 
-           int choice = InputUtils.readInt("Your choice:");
+                int choice = InputUtils.readInt("Your choice:");
 
-           switch (choice){
-               case 1 -> listAndAdd(store ,cart);
-               case 2 -> cart.listCart();
-               case 3 -> cart.removeFromCart();
-               case 4 -> payment(cart);
-               case 9 -> adminMenu(store);
-               case 0 -> {
-                   System.out.println("Exit...");
-                   isOver = true;
-               }
-           }
+                switch (choice){
+                    case 1 -> listAndAdd(store ,cart);
+                    case 2 -> cart.listCart();
+                    case 3 -> cart.removeFromCart();
+                    case 4 -> payment(cart);
+                    case 9 -> adminMenu(store);
+                    case 0 -> {
+                        System.out.println("Exit...");
+                        isOver = true;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }while(!isOver);
     }
 
