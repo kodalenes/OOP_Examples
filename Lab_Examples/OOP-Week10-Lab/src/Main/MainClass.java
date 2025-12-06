@@ -15,17 +15,15 @@ import java.util.concurrent.TimeUnit;
 
 public class MainClass {
 
+    private static final int adminPass = 1234;
+
     static void main() {
         Store store = new Store();
         ShoppingCart cart = new ShoppingCart();
+        userMenu(store ,cart);
+    }
 
-        store.addProductToStore(new Electronics("Laptop" , 5000 , 12));
-        store.addProductToStore(new Electronics("Mouse" , 600 , 12));
-        store.addProductToStore(new Electronics("Monitor" , 1000 , 24));
-        store.addProductToStore(new Electronics("Keyboard" , 750 , 24));
-        store.addProductToStore(new Clothes("T-Shirt" ,250 , 2));
-        store.addProductToStore(new Clothes("Tie" ,100 , 1));
-        store.addProductToStore(new Clothes("Trousers" ,300 , 3));
+    private static void userMenu(Store store , ShoppingCart cart) {
 
         boolean isOver = false;
         do {
@@ -34,6 +32,7 @@ public class MainClass {
             System.out.println("2-List cart");
             System.out.println("3-Remove from cart");
             System.out.println("4-Pay");
+            System.out.println("9-Admin Panel");
             System.out.println("0-Exit");
 
            int choice = InputUtils.readInt("Your choice:");
@@ -43,6 +42,7 @@ public class MainClass {
                case 2 -> cart.listCart();
                case 3 -> cart.removeFromCart();
                case 4 -> payment(cart);
+               case 9 -> adminMenu(store);
                case 0 -> {
                    System.out.println("Exit...");
                    isOver = true;
@@ -51,16 +51,43 @@ public class MainClass {
         }while(!isOver);
     }
 
-    private static void listAndAdd(Store store , ShoppingCart cart)
+    private static void adminMenu(Store store)
     {
+        int pass = InputUtils.readInt("Enter admin password?");
+        if (pass != adminPass)
+        {
+            System.out.println("Wrong password!");
+            return;
+        }
+        boolean isOver = false;
+
+        do {
+            System.out.println("---------");
+            System.out.println("1-Add Product To Store");
+            System.out.println("2-Remove Product From Store");
+            System.out.println("0-Back");
+            System.out.println("---------");
+            int choice = InputUtils.readInt("Your choice");
+
+            switch (choice){
+                case 1 -> store.addProductToStore();
+                case 2 -> store.removeProductFromStore();
+                case 0 -> isOver = true;
+            }
+        }while(!isOver);
+    }
+
+    private static void listAndAdd(Store store, ShoppingCart cart) {
         store.listAllProducts();
 
-        String targetProductName = InputUtils.readString("Enter product name that you want to add to cart?");
-        int amount = InputUtils.readInt("How many " + targetProductName + " do you want to buy?");
+        String targetProductName = InputUtils.readString("Enter product name that you want to add to cart? (Enter 0 to exit)");
+        if (targetProductName.equalsIgnoreCase("0"))
+            return;
 
         Product product = null;
         try {
             product = store.findProductByName(targetProductName);
+            int amount = InputUtils.readInt("How many " + targetProductName + " do you want to buy?");
             cart.addToCart(product , amount);
         } catch (ProductCantFoundException e)
         {

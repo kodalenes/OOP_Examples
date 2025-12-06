@@ -2,6 +2,7 @@ package StoreManager;
 
 import Exceptions.ProductCantFoundException;
 import Products.Product;
+import Utils.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,17 @@ import java.util.List;
 public class Store {
     List<Product> products = new ArrayList<>();
 
-    public void addProductToStore(Product product)
+    public void addProductToStore()
     {
+        String name = InputUtils.readString("Enter product name?");
+        double price = InputUtils.readDouble("Enter product price?");
+        Product product = new Product(name , price);
         products.add(product);
     }
 
-    public void removeProductFromStore(String targetName)
+    public void removeProductFromStore()
     {
+        String targetName = InputUtils.readString("Enter product name to remove from store?");
         boolean isRemoved = products.removeIf(product -> product.getName().equalsIgnoreCase(targetName));
 
         if (isRemoved)
