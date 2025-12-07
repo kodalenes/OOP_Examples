@@ -6,7 +6,7 @@ public class Electronics extends Product{
 
     public Electronics(String name, double price, int warrantyPeriod ,int stockAmount)
     {
-        super(name, price , stockAmount);
+        super(name, price, stockAmount, ProductType.ELECTRONICS);
         this.warrantyPeriod = warrantyPeriod;
     }
 
@@ -17,6 +17,6 @@ public class Electronics extends Product{
 
     @Override
     public double getDiscountAmount() {
-        return getPrice() * 0.1;
+        return getPrice() * 0.10;
     }
 }

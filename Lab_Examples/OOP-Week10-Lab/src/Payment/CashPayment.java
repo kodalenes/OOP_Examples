@@ -8,7 +8,9 @@ public class CashPayment implements PaymentBehavior{
     @Override
     public boolean processPayment(double totalAmount)
     {
-        double cashGiven = InputUtils.readDouble("Enter the amount of money the customer pays?");
+        double cashGiven = InputUtils.readDouble("Enter the amount of money the customer pays? (0 for menu)");
+        if (cashGiven == 0)
+            return false;
 
         if (cashGiven < totalAmount)
         {

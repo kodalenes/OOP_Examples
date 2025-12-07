@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ShoppingCart{
 
-    HashMap<Product , Integer> cart = new HashMap<>();
+    HashMap<Product,Integer> cart = new HashMap<>();
 
     public void addToCart(Product product, int amount)
     {
@@ -21,7 +21,10 @@ public class ShoppingCart{
                     ("Insufficient stock! " + product.getName() + " remaining:" + product.getStockAmount());
         product.setStockAmount(product.getStockAmount() - amount);//updates stock amount
         cart.put(product ,cart.getOrDefault(product ,0) + amount);
-        System.out.println(product.getName() + " added to cart.Total amount:" + cart.get(product));
+        System.out.printf("%s added to cart. Total amount:%d . (Subtotal:%.2f TL)%n"
+                ,product.getName()
+                ,cart.get(product)
+                ,product.getPrice() * cart.get(product));
     }
 
     public void removeFromCart()
@@ -80,12 +83,15 @@ public class ShoppingCart{
             return;
         }
 
+        double subtotal = 0.0;
         for (Map.Entry<Product,Integer> entry : cart.entrySet())
         {
             if (entry != null) {
-                System.out.println(entry + "Amount:" + cart.getOrDefault(entry.getKey() ,0));//urun bilgisi + adedi
+                subtotal += entry.getKey().getPrice() * entry.getValue();
+                System.out.println(entry.getKey() + "Amount:" + cart.getOrDefault(entry.getKey() ,0));//urun bilgisi + adedi
             }
         }
+        System.out.println("Subtotal:" + subtotal);
     }
 
     private double calculateTotal()
@@ -103,6 +109,10 @@ public class ShoppingCart{
         if (total <= 0)
             throw new EmptyCartException("Empty cart.Add product to cart!");
 
+        System.out.println("----Cart Summary----");
+        listCart();
+        System.out.println("--------------------");
+
         //Calculate total discount
         double totalDiscount = 0.0;
         for (Map.Entry<Product,Integer> entry : cart.entrySet())
@@ -118,6 +128,11 @@ public class ShoppingCart{
             System.out.printf("Total: %.2f TL%n" , total);
             System.out.printf("Discount Amount: %.2f TL%n" , totalDiscount);
             System.out.printf("Discounted Total: %.2f TL%n" , finalAmount);
+            System.out.println("----------");
+        }else
+        {
+            System.out.println("----------");
+            System.out.printf("Total: %.2f TL%n" , total);
             System.out.println("----------");
         }
 
