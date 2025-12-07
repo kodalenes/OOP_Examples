@@ -12,6 +12,7 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - **Ürün Listeleme**: Tüm ürünler stok miktarlarıyla gösterilir
 - **Ürün Arama**: Büyük/küçük harf duyarsız arama
 - **Sepete Ekleme**: Ürün adı ve miktar belirterek sepete ekleme
+- **JSON Kaydet/Yükle**: Tüm ürünler otomatik olarak `product_file` dosyasına JSON formatında kaydedilir ve uygulama başlangıcında yüklenir
 
 #### **2. Sepet Yönetimi**
 - **Görüntüleme**: Sepetteki tüm ürünler ve adetleri listelenir
@@ -61,6 +62,10 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - **Yetersiz para kontrolü**: Ödenen < Toplam → ❌ İşlem iptal
 - **Para üstü hesaplama**: Ödenen > Toplam → Fark hesaplanır
 
+**Başarılı Ödeme:**
+- Ödeme başarılı olduğunda sepet otomatik olarak temizlenir
+- Stok bilgileri korunur (ödeme öncesi zaten güncellenmiştir)
+
 #### **5. Hata Yönetimi**
 | Exception | Durum | Çözüm |
 |-----------|-------|-------|
@@ -84,6 +89,8 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 2. **Ürün Silme**:
    - İsme göre arama
    - Bulunan ürün mağazadan kaldırılır
+3. **Otomatik Kaydetme**:
+   - Admin panelinden veya uygulamadan çıkışta tüm ürünler JSON dosyasına otomatik kaydedilir
 
 ---
 
@@ -94,4 +101,5 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - ✅ Negatif stok değeri engellenmiş
 - ✅ Boş string girişleri yakalanır
 - ✅ Exception'lar merkezi olarak yönetilir
+
 

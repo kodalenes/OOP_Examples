@@ -21,11 +21,12 @@ public class MainClass {
     public static void main(String[] args) {
         Store store = new Store();
         ShoppingCart cart = new ShoppingCart();
+
         userMenu(store ,cart);
     }
 
     private static void userMenu(Store store , ShoppingCart cart) {
-
+        store.loadFromJSON();
         boolean isOver = false;
         do {
             try {
@@ -46,6 +47,7 @@ public class MainClass {
                     case 4 -> payment(cart);
                     case 9 -> adminMenu(store);
                     case 0 -> {
+                        store.saveToJSON();
                         System.out.println("Exit...");
                         isOver = true;
                     }
@@ -77,7 +79,10 @@ public class MainClass {
             switch (choice){
                 case 1 -> store.addProductToStore();
                 case 2 -> store.removeProductFromStore();
-                case 0 -> isOver = true;
+                case 0 -> {
+                    store.saveToJSON();
+                    isOver = true;
+                }
             }
         }while(!isOver);
     }
