@@ -2,11 +2,10 @@
   {
     "name": "Potato",
     "price": 10.0,
-    "stockAmount": 9996,
+    "stockAmount": 996,
     "productType": "FOOD"
   },
   {
-    "size": 0,
     "name": "Tie",
     "price": 100.0,
     "stockAmount": 3,

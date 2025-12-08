@@ -142,4 +142,15 @@ public class ShoppingCart{
             cart.clear();
         }
     }
+
+    public void restoreStock() {
+        if (!cart.isEmpty())
+        {
+            for (Map.Entry<Product,Integer> entry : cart.entrySet())
+            {
+                Product p = entry.getKey();
+                p.setStockAmount(p.getStockAmount() + entry.getValue());
+            }
+        }
+    }
 }

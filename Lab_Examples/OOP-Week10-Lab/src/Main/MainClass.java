@@ -47,6 +47,7 @@ public class MainClass {
                     case 4 -> payment(cart);
                     case 9 -> adminMenu(store);
                     case 0 -> {
+                        cart.restoreStock();
                         store.saveToJSON();
                         System.out.println("Exit...");
                         isOver = true;
