@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Store {
@@ -103,6 +104,66 @@ public class Store {
         for (Product p : products)
             if (p != null)
                 System.out.printf("%s :%s  Stock:%d %n",p.getProductType(), p, p.getStockAmount());
+    }
+
+    public void listProductsByPriceGrow()
+    {
+        System.out.println("----Price (growing)");
+        products.stream()
+                .sorted(Comparator.comparingDouble(Product::getPrice))
+                .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                        ,p.getName() , p.getPrice() , p.getStockAmount()));
+    }
+
+    public void listProductsByPriceDecreasing()
+    {
+        System.out.println("----Price (decreasing)");
+        products.stream()
+                .sorted(Comparator.comparingDouble(Product::getPrice).reversed())
+                .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                        ,p.getName() , p.getPrice() , p.getStockAmount()));
+    }
+
+    public void listProductsInPriceRange(double min , double max)
+    {
+        System.out.println("----Product in " + min + "-" + max + " range----" );
+        boolean found = products.stream()
+                .filter(p -> p.getPrice() >= min && p.getPrice() <= max)
+                .peek(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                        ,p.getName() , p.getPrice() , p.getStockAmount()))
+                .count() > 0;
+
+        if (!found)
+            System.out.println("There is no product in range!");
+    }
+    public void listProductsByCategory()
+    {
+        System.out.println(productTypeList);
+        ProductType choice = ProductType.valueOf(InputUtils.readString("Enter product category?"));
+
+        switch (choice){
+            case ELECTRONICS -> {
+                products.stream()
+                        .filter(product -> product.getProductType().equals(ProductType.ELECTRONICS))
+                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                                ,p.getName() , p.getPrice() , p.getStockAmount()));
+            }case CLOTHES -> {
+                products.stream()
+                        .filter(product -> product.getProductType().equals(ProductType.CLOTHES))
+                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                                ,p.getName() , p.getPrice() , p.getStockAmount()));
+            }case FOOD -> {
+                products.stream()
+                        .filter(product -> product.getProductType().equals(ProductType.FOOD))
+                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                                ,p.getName() , p.getPrice() , p.getStockAmount()));
+            }case BOOK -> {
+                products.stream()
+                        .filter(product -> product.getProductType().equals(ProductType.BOOK))
+                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                                ,p.getName() , p.getPrice() , p.getStockAmount()));
+            }default -> System.out.println("Invalid type!");
+        }
     }
 
     public void listProductTypes()

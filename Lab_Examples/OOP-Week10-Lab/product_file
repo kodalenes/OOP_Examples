@@ -10,5 +10,19 @@
     "price": 100.0,
     "stockAmount": 3,
     "productType": "CLOTHES"
+  },
+  {
+    "warrantyPeriod": 24,
+    "name": "Laptop",
+    "price": 100000.0,
+    "stockAmount": 5,
+    "productType": "ELECTRONICS"
+  },
+  {
+    "page": 172,
+    "name": "Psycho",
+    "price": 1000.0,
+    "stockAmount": 10,
+    "productType": "BOOK"
   }
 ]

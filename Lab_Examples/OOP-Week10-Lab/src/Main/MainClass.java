@@ -9,6 +9,7 @@ import Payment.PaymentBehavior;
 import Products.Clothes;
 import Products.Electronics;
 import Products.Product;
+import Products.ProductType;
 import StoreManager.*;
 import Utils.InputUtils;
 
@@ -32,9 +33,10 @@ public class MainClass {
             try {
                 System.out.println("----WELCOME STORE----");
                 System.out.println("1-Products");
-                System.out.println("2-List cart");
-                System.out.println("3-Remove from cart");
-                System.out.println("4-Pay");
+                System.out.println("2-Filter list products");
+                System.out.println("3-List cart");
+                System.out.println("4-Remove from cart");
+                System.out.println("5-Pay");
                 System.out.println("9-Admin Panel");
                 System.out.println("0-Exit");
 
@@ -42,9 +44,10 @@ public class MainClass {
 
                 switch (choice){
                     case 1 -> listAndAdd(store ,cart);
-                    case 2 -> cart.listCart();
-                    case 3 -> cart.removeFromCart();
-                    case 4 -> payment(cart);
+                    case 2 -> filterList(store ,cart);
+                    case 3 -> cart.listCart();
+                    case 4 -> cart.removeFromCart();
+                    case 5 -> payment(cart);
                     case 9 -> adminMenu(store);
                     case 0 -> {
                         cart.restoreStock();
@@ -73,6 +76,7 @@ public class MainClass {
             System.out.println("---------");
             System.out.println("1-Add Product To Store");
             System.out.println("2-Remove Product From Store");
+            System.out.println("3-List products");
             System.out.println("0-Back");
             System.out.println("---------");
             int choice = InputUtils.readInt("Your choice");
@@ -80,6 +84,7 @@ public class MainClass {
             switch (choice){
                 case 1 -> store.addProductToStore();
                 case 2 -> store.removeProductFromStore();
+                case 3 -> store.listAllProducts();
                 case 0 -> {
                     store.saveToJSON();
                     isOver = true;
@@ -104,6 +109,31 @@ public class MainClass {
         {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static void filterList(Store store, ShoppingCart cart)
+    {
+        System.out.println("1-List products by decreasing price.");
+        System.out.println("2-List products by growing price.");
+        System.out.println("3-List products in price range.");
+        System.out.println("4-List products by category.");
+        System.out.println("0-Back");
+        int choice = InputUtils.readInt("Enter filter type?");
+
+        switch (choice){
+            case 1 -> store.listProductsByPriceDecreasing();
+            case 2 -> store.listProductsByPriceGrow();
+            case 3 -> {
+                double min = InputUtils.readDouble("Enter min price?");
+                double max = InputUtils.readDouble("Enter max price?");
+                store.listProductsInPriceRange(min , max);
+            }
+            case 4 -> store.listProductsByCategory();
+            case 0 -> {
+                return;
+            }
+        }
+
     }
 
     private static void payment(ShoppingCart cart) {
