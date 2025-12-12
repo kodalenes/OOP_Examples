@@ -139,7 +139,7 @@ public class Store {
     public void listProductsByCategory()
     {
         System.out.println(productTypeList);
-        ProductType choice = ProductType.valueOf(InputUtils.readString("Enter product category?"));
+        ProductType choice = ProductType.valueOf(InputUtils.readString("Enter product category?").toUpperCase());
 
         switch (choice){
             case ELECTRONICS -> {
