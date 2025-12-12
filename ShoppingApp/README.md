@@ -101,5 +101,3 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - ✅ Negatif stok değeri engellenmiş
 - ✅ Boş string girişleri yakalanır
 - ✅ Exception'lar merkezi olarak yönetilir
-
-

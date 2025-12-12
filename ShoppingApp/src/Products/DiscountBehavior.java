@@ -1,4 +1,4 @@
-package StoreManager;
+package Products;
 
 public interface DiscountBehavior {
 

@@ -133,7 +133,6 @@ public class MainClass {
                 return;
             }
         }
-
     }
 
     private static void payment(ShoppingCart cart) {

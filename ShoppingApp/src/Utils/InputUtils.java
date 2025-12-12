@@ -9,7 +9,7 @@ public class InputUtils {
     {
         while(true)
         {
-            System.out.println(message + ":");
+            System.out.print(message + ":");
             String value = scanner.nextLine().trim();
 
             if (value.isEmpty())
@@ -25,9 +25,15 @@ public class InputUtils {
     {
         while(true)
         {
-            System.out.println(message + ":");
+            System.out.print(message + ":");
             try{
-                return Integer.parseInt(scanner.nextLine());
+                int value = Integer.parseInt(scanner.nextLine());
+                if (value < 0)
+                {
+                    System.out.println("Value cannot be negative!");
+                    continue;
+                }
+                return value;
             }catch (NumberFormatException e)
             {
                 System.out.println("Enter valid number!");
@@ -40,8 +46,14 @@ public class InputUtils {
         while(true)
         {
             try{
-                System.out.println(message + ":");
-                return Double.parseDouble(scanner.nextLine());
+                System.out.print(message + ":");
+                double value = Double.parseDouble(scanner.nextLine());
+                if (value < 0)
+                {
+                    System.out.println("Value cannot be negative!");
+                    continue;
+                }
+                return value;
             }catch (NumberFormatException e)
             {
                 System.out.println("Enter valid number!");

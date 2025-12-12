@@ -1,6 +1,6 @@
 package Products;
 
-import StoreManager.DiscountBehavior;
+import java.util.Objects;
 
 public class Product implements DiscountBehavior {
 
@@ -49,16 +49,32 @@ public class Product implements DiscountBehavior {
         return productType;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s (%.2f TL)", name, price);
-    }
-
     /**
      * @return Calculates (product's price * applied discount rate) and returns.
      */
     @Override
     public double getDiscountAmount() {
         return 0.0;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("%s (%.2f TL)", name, price);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || this.getClass() != other.getClass()) return false;
+
+        Product otherProduct = (Product) other;
+        return Objects.equals(this.name , otherProduct.getName())
+                && Objects.equals(this.productType , otherProduct.getProductType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name , productType);
     }
 }

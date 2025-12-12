@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class Store {
 
@@ -27,12 +28,24 @@ public class Store {
     public void addProductToStore()
     {
         listProductTypes();
-        ProductType productType = ProductType.valueOf(InputUtils.readString("Enter product type?").toUpperCase());
+        ProductType productType = null;
+        while(productType == null)
+        {
+            try {
+                String input = InputUtils.readString("Enter product type? (0 for exit)").toUpperCase();
+                if (input.equalsIgnoreCase("0")) return;
+                productType = ProductType.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid product type!");
+            }
+        }
 
+        //First get common infos
         String name = InputUtils.readString("Enter product name?");
         double price = InputUtils.readDouble("Enter product price?");
         int stockAmount = InputUtils.readInt("Enter stock amount");
 
+        //Then gets specific infos
         Product product = null;
         switch (productType){
             case ELECTRONICS ->{
@@ -60,8 +73,12 @@ public class Store {
         System.out.println(product.getName() + " added to store successfully.");
     }
 
+    /**
+     * Deletes product from store by entered product name
+     */
     public void removeProductFromStore()
     {
+        //if list is empty return
         if (products.isEmpty())
         {
             System.out.println("Cart is empty!");
@@ -69,41 +86,52 @@ public class Store {
         }
         listAllProducts();
 
-        String targetName = InputUtils.readString("Enter product name to remove from store?");
+        String targetName = InputUtils.readString("Enter product name to remove from store? (0 for exit)");
+        if (targetName.equalsIgnoreCase("0")) return;
+        Product product = findProductByName(targetName);
 
         String confirm = InputUtils.readString(targetName + " will delete.Are you sure (Y/N)");
         if (!confirm.equalsIgnoreCase("Y"))
             return;
 
-        boolean isRemoved = products.removeIf(product -> product.getName().equalsIgnoreCase(targetName));
+        products.remove(product);
 
-        if (isRemoved)
-            System.out.println(targetName + " is removed from store.");
+        System.out.println(targetName + " is removed from store.");
     }
 
     public Product findProductByName(String targetName) throws ProductCantFoundException
     {
-        for (Product p : products)
-        {
-            if (p.getName().equalsIgnoreCase(targetName))
-            {
-                return p;
-            }
-        }
-
-        throw new ProductCantFoundException("Product cannot found!");
+        return products.stream()
+                .filter(product -> product.getName().equalsIgnoreCase(targetName))
+                .findFirst()
+                .orElseThrow(() -> new ProductCantFoundException("Product cannot found!"));
     }
 
     public void listAllProducts()
     {
-        if (products.isEmpty())
+        if (products == null || products.isEmpty())
         {
             System.out.println("There is no product!");
             return;
         }
-        for (Product p : products)
-            if (p != null)
-                System.out.printf("%s :%s  Stock:%d %n",p.getProductType(), p, p.getStockAmount());
+
+        System.out.println("--------------------------------------------------------------------");
+        System.out.printf("%-15s %-20s %-15s %-10s%n", "CATEGORY", "NAME", "PRICE", "STOCK");
+        System.out.println("--------------------------------------------------------------------");
+
+        for (Product p : products) {
+            if (p != null) {
+                // %-15s: 15 karakterlik alan ayır ve sola yasla
+                // %-20s: 20 karakterlik alan ayır ve sola yasla
+                System.out.printf("%-15s %-20s %-15s %-10d%n",
+                        p.getProductType(),
+                        p.getName(),
+                        String.format("%.2f TL", p.getPrice()),
+                        p.getStockAmount()
+                );
+            }
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public void listProductsByPriceGrow()
@@ -124,6 +152,11 @@ public class Store {
                         ,p.getName() , p.getPrice() , p.getStockAmount()));
     }
 
+    /**
+     * Gets min and max value to list product in range
+     * @param min min range price
+     * @param max max range price
+     */
     public void listProductsInPriceRange(double min , double max)
     {
         System.out.println("----Product in " + min + "-" + max + " range----" );
@@ -136,34 +169,16 @@ public class Store {
         if (!found)
             System.out.println("There is no product in range!");
     }
+
     public void listProductsByCategory()
     {
         System.out.println(productTypeList);
         ProductType choice = ProductType.valueOf(InputUtils.readString("Enter product category?").toUpperCase());
 
-        switch (choice){
-            case ELECTRONICS -> {
-                products.stream()
-                        .filter(product -> product.getProductType().equals(ProductType.ELECTRONICS))
-                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
-                                ,p.getName() , p.getPrice() , p.getStockAmount()));
-            }case CLOTHES -> {
-                products.stream()
-                        .filter(product -> product.getProductType().equals(ProductType.CLOTHES))
-                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
-                                ,p.getName() , p.getPrice() , p.getStockAmount()));
-            }case FOOD -> {
-                products.stream()
-                        .filter(product -> product.getProductType().equals(ProductType.FOOD))
-                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
-                                ,p.getName() , p.getPrice() , p.getStockAmount()));
-            }case BOOK -> {
-                products.stream()
-                        .filter(product -> product.getProductType().equals(ProductType.BOOK))
-                        .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
-                                ,p.getName() , p.getPrice() , p.getStockAmount()));
-            }default -> System.out.println("Invalid type!");
-        }
+        products.stream()
+                .filter(p -> p.getProductType().equals(choice))
+                .forEach(p -> System.out.printf("%s :%.2f TL Stock: %d %n"
+                        ,p.getName() , p.getPrice() , p.getStockAmount()));
     }
 
     public void listProductTypes()
@@ -174,12 +189,13 @@ public class Store {
     public void saveToJSON()
     {
         Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .setPrettyPrinting()//Tek satir degil alt alta yazmak
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Tarih bilgisini tanitma
                 .create();
 
+        //opening file (if there is an error writer will auto close)
         try(FileWriter writer = new FileWriter(PRODUCT_FILE)){
-            gson.toJson(products , writer);
+            gson.toJson(products , writer);//writes list to json
             System.out.println("Products saved to JSON!");
 
         }catch (Exception e)
@@ -202,14 +218,19 @@ public class Store {
                 .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
                 .create();
 
+        //Create reader (if there is an error reader will auto close)
         try(FileReader reader = new FileReader(PRODUCT_FILE)){
-
+            //This line says java you're going to read Product ArrayList
+            //So this line introduce the files info to gson
             Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
 
+            //Read the file and convert it to Product List
             List<Product> loadedList = gson.fromJson(reader , listType);
 
             if(loadedList != null)
             {
+                //If read list doesn't empty
+                //Our product list now equal read list
                 this.products = loadedList;
                 System.out.println("Products loaded successfully");
             }

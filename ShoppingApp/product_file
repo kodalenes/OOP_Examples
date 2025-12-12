@@ -2,25 +2,40 @@
   {
     "name": "Potato",
     "price": 10.0,
-    "stockAmount": 996,
+    "stockAmount": 886,
     "productType": "FOOD"
   },
   {
     "name": "Tie",
     "price": 100.0,
-    "stockAmount": 3,
+    "stockAmount": 1,
     "productType": "CLOTHES"
-  },
-  {
-    "name": "Laptop",
-    "price": 100000.0,
-    "stockAmount": 5,
-    "productType": "ELECTRONICS"
   },
   {
     "name": "Psycho",
     "price": 1000.0,
+    "stockAmount": 9,
+    "productType": "BOOK"
+  },
+  {
+    "warrantyPeriod": 24,
+    "name": "Laptop",
+    "price": 10000.0,
+    "stockAmount": 5,
+    "productType": "ELECTRONICS"
+  },
+  {
+    "size": 2,
+    "name": "Shoes",
+    "price": 1500.0,
     "stockAmount": 10,
+    "productType": "CLOTHES"
+  },
+  {
+    "page": 300,
+    "name": "Ahmet ile Mehmet",
+    "price": 200.0,
+    "stockAmount": 25,
     "productType": "BOOK"
   }
 ]

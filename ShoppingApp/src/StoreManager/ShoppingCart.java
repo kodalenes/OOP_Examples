@@ -14,6 +14,12 @@ public class ShoppingCart{
 
     HashMap<Product,Integer> cart = new HashMap<>();
 
+    /**
+     *
+     * @param product Product to add cart
+     * @param amount  Products amount to add cart
+     * @exception InsufficientStockException product's stock amount doesn't enough throw that
+     */
     public void addToCart(Product product, int amount)
     {
         if (product.getStockAmount() - amount < 0)
@@ -21,10 +27,11 @@ public class ShoppingCart{
                     ("Insufficient stock! " + product.getName() + " remaining:" + product.getStockAmount());
         product.setStockAmount(product.getStockAmount() - amount);//updates stock amount
         cart.put(product ,cart.getOrDefault(product ,0) + amount);
-        System.out.printf("%s added to cart. Total amount:%d . (Subtotal:%.2f TL)%n"
+        System.out.printf("%s added to cart. Total amount:%d . (Total of the product:%.2f TL) (Cart total:%.2f TL)%n"
                 ,product.getName()
                 ,cart.get(product)
-                ,product.getPrice() * cart.get(product));
+                ,product.getPrice() * cart.get(product)
+                ,calculateTotal());
     }
 
     public void removeFromCart()
@@ -83,15 +90,29 @@ public class ShoppingCart{
             return;
         }
 
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-20s %-15s %-10s %-15s%n", "PRODUCT", "PRICE", "AMOUNT", "TOTAL");
+        System.out.println("-------------------------------------------------------------------------");
+
         double subtotal = 0.0;
         for (Map.Entry<Product,Integer> entry : cart.entrySet())
         {
-            if (entry != null) {
-                subtotal += entry.getKey().getPrice() * entry.getValue();
-                System.out.println(entry.getKey() + "Amount:" + cart.getOrDefault(entry.getKey() ,0));//urun bilgisi + adedi
+            if (entry.getKey() != null) {
+                Product p = entry.getKey();
+                int amount = entry.getValue();
+                double lineTotal = p.getPrice() * amount;
+                subtotal += lineTotal;
+
+                System.out.printf("%-20s %-15s %-10d %-15s%n",
+                        p.getName(),                            // Urun Adi
+                        String.format("%.2f TL", p.getPrice()), // Birim Fiyat
+                        amount,                                 // Adet
+                        String.format("%.2f TL", lineTotal)     // Satir Toplami (Fiyat * Adet)
+                );
             }
         }
-        System.out.println("Subtotal:" + subtotal);
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("Subtotal: %.2f TL%n", subtotal);
     }
 
     private double calculateTotal()
@@ -101,6 +122,11 @@ public class ShoppingCart{
                 .sum();
     }
 
+    /**
+     *  Calculates cart total and apply discounts if payment is successful clears cart.
+     * @param paymentMethod the method how payment will be happened
+     * @throws EmptyCartException if shopping cart is empty throw that
+     */
     public void payment(PaymentBehavior paymentMethod) throws EmptyCartException
     {
         boolean isSuccessful;
@@ -143,6 +169,9 @@ public class ShoppingCart{
         }
     }
 
+    /**
+     * If user trying to exit while cart isn't empty this method will restore stock amounts
+     */
     public void restoreStock() {
         if (!cart.isEmpty())
         {
