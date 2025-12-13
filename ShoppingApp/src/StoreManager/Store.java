@@ -21,9 +21,25 @@ import java.util.Optional;
 
 public class Store {
 
+    public static Store instance;
+
     private static final String PRODUCT_FILE = "product_file";
-    List<Product> products = new ArrayList<>();
-    List<ProductType> productTypeList = List.of(ProductType.values());
+    List<Product> products ;
+    List<ProductType> productTypeList;
+
+    private Store()
+    {
+        products = new ArrayList<>();
+        productTypeList = List.of(ProductType.values());
+    }
+    public static Store getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Store();
+        }
+        return instance;
+    }
 
     public void addProductToStore()
     {

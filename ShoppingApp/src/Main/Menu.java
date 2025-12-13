@@ -16,9 +16,9 @@ public class Menu {
 
     private static final int adminPass = 1234;
 
-    public static void userMenu(Store store , ShoppingCart cart)
+    public static void userMenu(ShoppingCart cart)
     {
-        store.loadFromJSON();
+        Store.getInstance().loadFromJSON();
         boolean isOver = false;
         do {
             try {
@@ -34,15 +34,15 @@ public class Menu {
                 int choice = InputUtils.readInt("Your choice:");
 
                 switch (choice){
-                    case 1 -> listAndAdd(store ,cart);
-                    case 2 -> filterList(store ,cart);
+                    case 1 -> listAndAdd(cart);
+                    case 2 -> filterList(cart);
                     case 3 -> cart.listCart();
                     case 4 -> cart.removeFromCart();
                     case 5 -> payment(cart);
-                    case 9 -> adminMenu(store);
+                    case 9 -> adminMenu();
                     case 0 -> {
                         cart.restoreStock();
-                        store.saveToJSON();
+                        Store.getInstance().saveToJSON();
                         System.out.println("Exit...");
                         isOver = true;
                     }
@@ -53,7 +53,7 @@ public class Menu {
         }while(!isOver);
     }
 
-    private static void adminMenu(Store store)
+    private static void adminMenu()
     {
         int pass = InputUtils.readInt("Enter admin password?");
         if (pass != adminPass)
@@ -73,20 +73,20 @@ public class Menu {
             int choice = InputUtils.readInt("Your choice");
 
             switch (choice){
-                case 1 -> store.addProductToStore();
-                case 2 -> store.removeProductFromStore();
-                case 3 -> store.listAllProducts();
+                case 1 -> Store.getInstance().addProductToStore();
+                case 2 -> Store.getInstance().removeProductFromStore();
+                case 3 -> Store.getInstance().listAllProducts();
                 case 0 -> {
-                    store.saveToJSON();
+                    Store.getInstance().saveToJSON();
                     isOver = true;
                 }
             }
         }while(!isOver);
     }
 
-    private static void listAndAdd(Store store, ShoppingCart cart)
+    private static void listAndAdd(ShoppingCart cart)
     {
-        store.listAllProducts();
+        Store.getInstance().listAllProducts();
 
         String targetProductName = InputUtils.readString("Enter product name that you want to add to cart? (Enter 0 to exit)");
         if (targetProductName.equalsIgnoreCase("0"))
@@ -94,7 +94,7 @@ public class Menu {
 
         Product product = null;
         try {
-            product = store.findProductByName(targetProductName);
+            product = Store.getInstance().findProductByName(targetProductName);
             int amount = InputUtils.readInt("How many " + targetProductName + " do you want to buy?");
             cart.addToCart(product , amount);
         } catch (ProductCantFoundException e)
@@ -103,7 +103,7 @@ public class Menu {
         }
     }
 
-    private static void filterList(Store store, ShoppingCart cart)
+    private static void filterList(ShoppingCart cart)
     {
         System.out.println("1-List products by decreasing price.");
         System.out.println("2-List products by growing price.");
@@ -113,14 +113,14 @@ public class Menu {
         int choice = InputUtils.readInt("Enter filter type?");
 
         switch (choice){
-            case 1 -> store.listProductsByPriceDecreasing();
-            case 2 -> store.listProductsByPriceGrow();
+            case 1 -> Store.getInstance().listProductsByPriceDecreasing();
+            case 2 -> Store.getInstance().listProductsByPriceGrow();
             case 3 -> {
                 double min = InputUtils.readDouble("Enter min price?");
                 double max = InputUtils.readDouble("Enter max price?");
-                store.listProductsInPriceRange(min , max);
+                Store.getInstance().listProductsInPriceRange(min , max);
             }
-            case 4 -> store.listProductsByCategory();
+            case 4 -> Store.getInstance().listProductsByCategory();
             case 0 -> {
                 return;
             }
