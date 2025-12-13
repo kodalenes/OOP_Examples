@@ -2,6 +2,8 @@ package Payment;
 
 import Main.MainClass;
 import Utils.InputUtils;
+import Main.Menu;
+import com.sun.tools.javac.Main;
 
 public class CashPayment implements PaymentBehavior{
 
@@ -20,7 +22,7 @@ public class CashPayment implements PaymentBehavior{
         {
             double change = cashGiven - totalAmount;
             System.out.println("Calculating change...");
-            MainClass.waitForSeconds(1);
+            Menu.waitForSeconds(1);
             System.out.printf("Process successful. Change: %.2f TL%n" , change);
             return true;
         }

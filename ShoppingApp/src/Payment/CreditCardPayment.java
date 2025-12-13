@@ -1,5 +1,6 @@
 package Payment;
 import Main.MainClass;
+import Main.Menu;
 import Utils.InputUtils;
 
 public class CreditCardPayment implements PaymentBehavior{
@@ -15,10 +16,10 @@ public class CreditCardPayment implements PaymentBehavior{
             return false;
 
         System.out.println("Connecting bank system...");
-        MainClass.waitForSeconds(2);
+        Menu.waitForSeconds(2);
 
         System.out.println("Payment is confirmed...");
-        MainClass.waitForSeconds(1);
+        Menu.waitForSeconds(1);
 
         System.out.println("Process successful " + totalAmount + " withdrawn from your account!");
         return true;

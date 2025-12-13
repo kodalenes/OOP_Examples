@@ -18,21 +18,18 @@
     "productType": "BOOK"
   },
   {
-    "warrantyPeriod": 24,
     "name": "Laptop",
     "price": 10000.0,
     "stockAmount": 5,
     "productType": "ELECTRONICS"
   },
   {
-    "size": 2,
     "name": "Shoes",
     "price": 1500.0,
     "stockAmount": 10,
     "productType": "CLOTHES"
   },
   {
-    "page": 300,
     "name": "Ahmet ile Mehmet",
     "price": 200.0,
     "stockAmount": 25,
