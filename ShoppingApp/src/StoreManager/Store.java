@@ -3,27 +3,15 @@ package StoreManager;
 import Exceptions.ProductCantFoundException;
 import Products.*;
 import Utils.InputUtils;
-import Utils.LocalDateAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import java.io.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 public class Store {
 
     public static Store instance;
 
-    private static final String PRODUCT_FILE = "product_file";
     List<Product> products ;
     List<ProductType> productTypeList;
 
@@ -137,8 +125,6 @@ public class Store {
 
         for (Product p : products) {
             if (p != null) {
-                // %-15s: 15 karakterlik alan ayır ve sola yasla
-                // %-20s: 20 karakterlik alan ayır ve sola yasla
                 System.out.printf("%-15s %-20s %-15s %-10d%n",
                         p.getProductType(),
                         p.getName(),
@@ -202,58 +188,12 @@ public class Store {
         System.out.println(productTypeList);
     }
 
-    public void saveToJSON()
-    {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()//Tek satir degil alt alta yazmak
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Tarih bilgisini tanitma
-                .create();
-
-        //opening file (if there is an error writer will auto close)
-        try(FileWriter writer = new FileWriter(PRODUCT_FILE)){
-            gson.toJson(products , writer);//writes list to json
-            System.out.println("Products saved to JSON!");
-
-        }catch (Exception e)
-        {
-            System.out.println("Error saving JSON!" + e.getMessage());
-        }
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void loadFromJSON()
-    {
-        File file = new File(PRODUCT_FILE);
-
-        if (!file.exists())
-        {
-            System.out.println("No JSON file found - starting with empty store!");
-            return;
-        }
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class , new LocalDateAdapter())
-                .create();
-
-        //Create reader (if there is an error reader will auto close)
-        try(FileReader reader = new FileReader(PRODUCT_FILE)){
-            //This line says java you're going to read Product ArrayList
-            //So this line introduce the files info to gson
-            Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
-
-            //Read the file and convert it to Product List
-            List<Product> loadedList = gson.fromJson(reader , listType);
-
-            if(loadedList != null)
-            {
-                //If read list doesn't empty
-                //Our product list now equal read list
-                this.products = loadedList;
-                System.out.println("Products loaded successfully");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error loading JSON!" + e.getMessage());
-        }
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
 }

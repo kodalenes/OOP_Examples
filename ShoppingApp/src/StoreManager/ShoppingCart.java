@@ -5,6 +5,7 @@ import Exceptions.InsufficientStockException;
 import Exceptions.ProductCantFoundException;
 import Payment.PaymentBehavior;
 import Products.Product;
+import Products.ProductType;
 import Utils.InputUtils;
 
 import java.util.HashMap;
@@ -82,37 +83,37 @@ public class ShoppingCart{
         throw new ProductCantFoundException("Product cannot found!");
     }
 
-    public void listCart()
-    {
-        if (cart.isEmpty())
-        {
+    public void listCart() {
+        if (cart.isEmpty()) {
             System.out.println("Cart is empty!");
             return;
         }
 
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s %-15s %-10s %-15s%n", "PRODUCT", "PRICE", "AMOUNT", "TOTAL");
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------");
+        // Tabloya DISC. PRICE sütununu ekledik
+        System.out.printf("%-20s %-15s %-15s %-10s%n", "PRODUCT", "UNIT PRICE", "DISC. PRICE", "AMOUNT");
+        System.out.println("--------------------------------------------------------------------------------------------");
 
         double subtotal = 0.0;
-        for (Map.Entry<Product,Integer> entry : cart.entrySet())
-        {
+        for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
             if (entry.getKey() != null) {
                 Product p = entry.getKey();
                 int amount = entry.getValue();
-                double lineTotal = p.getPrice() * amount;
+
+                double discountedUnitPrice = p.getPrice() - p.getDiscountAmount();
+                double lineTotal = discountedUnitPrice * amount;
                 subtotal += lineTotal;
 
-                System.out.printf("%-20s %-15s %-10d %-15s%n",
-                        p.getName(),                            // Urun Adi
-                        String.format("%.2f TL", p.getPrice()), // Birim Fiyat
-                        amount,                                 // Adet
-                        String.format("%.2f TL", lineTotal)     // Satir Toplami (Fiyat * Adet)
+                System.out.printf("%-20s %-15s %-15s %-10d%n",
+                        p.getName(),
+                        String.format("%.2f TL", p.getPrice()),           // Ham Birim Fiyat
+                        String.format("%.2f TL", discountedUnitPrice),    // İndirimli Birim Fiyat
+                        amount
                 );
             }
         }
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("Subtotal: %.2f TL%n", subtotal);
+        System.out.println("--------------------------------------------------------------------------------------------");
+        System.out.printf("Discounted Subtotal: %.2f TL%n", subtotal);
     }
 
     private double calculateTotal()
@@ -143,6 +144,7 @@ public class ShoppingCart{
         double totalDiscount = 0.0;
         for (Map.Entry<Product,Integer> entry : cart.entrySet())
         {
+            ProductType productType = entry.getKey().getProductType();
             totalDiscount += entry.getKey().getDiscountAmount() * entry.getValue();
         }
 

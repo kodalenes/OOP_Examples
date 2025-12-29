@@ -9,7 +9,9 @@ import Products.Product;
 import StoreManager.ShoppingCart;
 import StoreManager.Store;
 import Utils.InputUtils;
+import Utils.JsonFileHandler;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Menu {
@@ -18,7 +20,10 @@ public class Menu {
 
     public static void userMenu(ShoppingCart cart)
     {
-        Store.getInstance().loadFromJSON();
+        List<Product> loadedProducts = JsonFileHandler.loadFromJSON();
+        if (!loadedProducts.isEmpty()) {
+            Store.getInstance().setProducts(loadedProducts);
+        }
         boolean isOver = false;
         do {
             try {
@@ -42,7 +47,7 @@ public class Menu {
                     case 9 -> adminMenu();
                     case 0 -> {
                         cart.restoreStock();
-                        Store.getInstance().saveToJSON();
+                        JsonFileHandler.saveToJSON(Store.getInstance().getProducts());
                         System.out.println("Exit...");
                         isOver = true;
                     }
@@ -77,7 +82,7 @@ public class Menu {
                 case 2 -> Store.getInstance().removeProductFromStore();
                 case 3 -> Store.getInstance().listAllProducts();
                 case 0 -> {
-                    Store.getInstance().saveToJSON();
+                    JsonFileHandler.saveToJSON(Store.getInstance().getProducts());
                     isOver = true;
                 }
             }

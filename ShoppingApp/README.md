@@ -12,10 +12,14 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - **Ürün Listeleme**: Tüm ürünler stok miktarlarıyla gösterilir
 - **Ürün Arama**: Büyük/küçük harf duyarsız arama
 - **Sepete Ekleme**: Ürün adı ve miktar belirterek sepete ekleme
-- **JSON Kaydet/Yükle**: Tüm ürünler otomatik olarak `product_file` dosyasına JSON formatında kaydedilir ve uygulama başlangıcında yüklenir
+- **JSON Kaydet/Yükle**: Tüm ürünler `product_file` dosyasına JSON formatında kaydedilir ve yüklenir
+  - ✅ **Polimorfik Destek**: Ürün tipleri (Book, Electronics, Food, Clothes) korunur
+  - ✅ Uygulama kapanırken otomatik kayıt
 
 #### **2. Sepet Yönetimi**
-- **Görüntüleme**: Sepetteki tüm ürünler ve adetleri listelenir
+- **Görüntüleme**: 
+  - Ürün adı, birim fiyat, indirimli fiyat ve adet gösterilir
+  - **Subtotal**: Sepetteki toplam indirimli tutar otomatik hesaplanır
 - **Çıkarma**: 
   - Kısmi çıkarma (örn: 5 adetten 2'sini çıkar)
   - Tam çıkarma (sepetteki tüm adedi sil)
@@ -41,9 +45,10 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 **İndirim Mekanizması:**
 | Ürün Tipi | İndirim Oranı | Açıklama |
 |-----------|---------------|----------|
-| `Electronics` | %10 | Elektronik ürünlerde sabit indirim |
-| `Clothes` | %30 | Giyim ürünlerinde sabit indirim |
-| `Product` | %0 | Standart ürünlerde indirim yok |
+| `Book` | %20 | Kitap ürünlerinde indirim |
+| `Electronics` | %10 | Elektronik ürünlerde indirim |
+| `Food` | %10 | Gıda ürünlerinde indirim |
+| `Clothes` | %30 | Giyim ürünlerinde indirim |
 
 **İndirim Hesaplama:**
 - Her ürün tipi kendi indirimini hesaplar (`getDiscountAmount()`)
@@ -66,7 +71,12 @@ Java tabanlı nesne yönelimli mağaza yönetim sistemi.
 - Ödeme başarılı olduğunda sepet otomatik olarak temizlenir
 - Stok bilgileri korunur (ödeme öncesi zaten güncellenmiştir)
 
-#### **5. Hata Yönetimi**
+#### **5. Girdi Validasyonu**
+- ✅ **Tip kontrolü**: Sayısal girdi beklenen yerlerde harf girilirse uyarı verilir ve tekrar istenir
+- ✅ **Boş string kontrolü**: Boş girişler yakalanır
+- ✅ **Negatif değer kontrolü**: Negatif miktar/fiyat girilmesi engellenir
+
+#### **6. Hata Yönetimi**
 | Exception | Durum | Çözüm |
 |-----------|-------|-------|
 | `InsufficientStockException` | Stok yetersiz | Ekleme işlemi iptal, stok değişmez |
